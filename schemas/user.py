@@ -3,6 +3,7 @@ from sqlalchemy import DateTime
 
 
 class UserBase(BaseModel):
+    type: int
     name: str
     username: str
     phone_number: str
@@ -12,6 +13,10 @@ class UserBase(BaseModel):
     ward: str
     address: str
     postal_code: str
+    point: int | None = 0
+    image: str | None = ""
+    latitude: float | None = 0.0
+    longitude: float | None = 0.0
 
 
 class UserCreate(UserBase):
@@ -20,11 +25,6 @@ class UserCreate(UserBase):
 
 class User(UserBase):
     id: str
-    type: int
-    point: int | None = 0
-    image: str | None = ""
-    latitude: float | None = 0.0
-    longitude: float | None = 0.0
     created_at: DateTime
     updated_at: DateTime | None = None
 
