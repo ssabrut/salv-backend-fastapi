@@ -1,7 +1,17 @@
 from fastapi import FastAPI
 from enum import Enum
+from db.engine import Base, engine, Session
 
+Base.metadata.create_all(bind=engine)
 app = FastAPI()
+
+
+def get_db():
+    db = Session()
+    try:
+        yield db
+    finally:
+        db.close()
 
 
 class ModelName(str, Enum):
