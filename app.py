@@ -12,7 +12,7 @@ class ModelName(str, Enum):
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "Hello"}
 
 
 @app.get("/items/{item_id}")
