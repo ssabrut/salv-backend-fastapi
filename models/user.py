@@ -1,40 +1,32 @@
-from . import *
+from pydantic import BaseModel
+from sqlalchemy import DateTime
 
 
-class UserIn(BaseModel):
-    id: str
-    type_id: str
+class UserBase(BaseModel):
     name: str
     username: str
+    phone_number: str
+    province: str
+    city: str
+    subdistrict: str
+    ward: str
+    address: str
+    postal_code: str
+
+
+class UserCreate(UserBase):
     password: str
-    phone_number: str
-    point: int
-    province: str
-    city: str
-    subdistrict: str
-    ward: str
-    address: str
-    postal_code: str
-    image: str | None = ""
-    latitude: float
-    longitude: float
-    created_at: str | None = datetime.now()
-    updated_at: str | None = None
 
 
-class UserOut(BaseModel):
+class User(UserBase):
     id: str
-    type_id: str
-    name: str
-    username: str
-    phone_number: str
-    point: int
-    province: str
-    city: str
-    subdistrict: str
-    ward: str
-    address: str
-    postal_code: str
+    type: int
+    point: int | None = 0
     image: str | None = ""
-    latitude: float
-    longitude: float
+    latitude: float | None = 0.0
+    longitude: float | None = 0.0
+    created_at: DateTime
+    updated_at: DateTime | None = None
+
+    class Config:
+        orm_mode = True
