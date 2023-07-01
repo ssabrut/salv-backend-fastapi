@@ -20,9 +20,9 @@ class ModelName(str, Enum):
     lenet = "lenet"
 
 
-@app.get("/")
-async def root():
-    return {"message": "Hello"}
+# @app.get("/")
+# async def root():
+#     return {"message": "Hello"}
 
 
 @app.get("/items/{item_id}")
