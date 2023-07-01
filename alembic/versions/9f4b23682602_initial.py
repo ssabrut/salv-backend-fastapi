@@ -1,27 +1,28 @@
-"""Initial migration
+"""initial
 
-Revision ID: 001
+Revision ID: 9f4b23682602
 Revises: 
-Create Date: 2023-07-01 13:02:00
+Create Date: 2023-07-01 13:55:20.289006
 
 """
-
 from alembic import op
 from sqlalchemy import Column, String, Integer, Enum, Text, Float, DateTime
 from sqlalchemy.sql import func
 from db.enum import TypeEnum
 
-revision = "001"
+
+# revision identifiers, used by Alembic.
+revision = "9f4b23682602"
 down_revision = None
 branch_labels = None
 depends_on = None
 
 
-def upgrade():
+def upgrade() -> None:
     op.create_table(
         "users",
         Column("id", String(20), primary_key=True, unique=True, index=True),
-        Column("type", Enum(TypeEnum)),
+        Column("type", Integer, nullable=False, index=True),
         Column("name", String(150), nullable=False, index=True),
         Column("username", String(50), nullable=False, unique=True),
         Column("password", String(150), nullable=False),
@@ -29,7 +30,7 @@ def upgrade():
         Column("point", Integer, default=0, nullable=False, index=True),
         Column("province", String(50), nullable=False, index=True),
         Column("city", String(50), nullable=False, index=True),
-        Column("subdistric", String(50), nullable=False, index=True),
+        Column("subdistrict", String(50), nullable=False, index=True),
         Column("ward", String(50), nullable=False, index=True),
         Column("address", Text, nullable=False, index=True),
         Column("postal_code", String(8), nullable=False, index=True),
@@ -41,5 +42,5 @@ def upgrade():
     )
 
 
-def downgrade():
+def downgrade() -> None:
     op.drop_table("users")
