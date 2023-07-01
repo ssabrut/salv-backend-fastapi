@@ -1,4 +1,4 @@
-from engine import Base
+from db.engine import Base
 from sqlalchemy import Column, String, Integer, Enum, Text, Float, DateTime
 from sqlalchemy.sql import func
 from db.enum import TypeEnum
