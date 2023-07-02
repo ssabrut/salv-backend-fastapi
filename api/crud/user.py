@@ -7,7 +7,7 @@ from passlib.context import CryptContext
 password_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
-def create(db: Session, user: UserSchema.UserCreate):
+async def create(db: Session, user: UserSchema.UserCreate):
     _uuid = str(uuid.uuid4())
     hashed_password = password_context.hash(user.password)
     data = {
