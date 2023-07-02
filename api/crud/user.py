@@ -1,10 +1,12 @@
 from sqlalchemy.orm import Session
-from db.schemas import user
+from db.schemas import user as UserSchema
+from db.models import user as UserModel
 
 
-def create(db: Session, user: user.UserCreate):
+def create(db: Session, user: UserSchema.UserCreate):
     fake_hashed_password = user.password + "notreallyhashed"
-    db_user = user.User(
+    db_user = UserModel.User(
+        id="asjd02312oih",
         type=0,
         name="Achmad Rijalu",
         username="achjaluwae",

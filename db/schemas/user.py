@@ -1,9 +1,9 @@
-from pydantic import BaseModel, validator
-from sqlalchemy import DateTime
+from pydantic import BaseModel
 from datetime import datetime
 
 
 class UserBase(BaseModel):
+    id: str
     type: int
     name: str
     username: str
@@ -25,16 +25,8 @@ class UserCreate(UserBase):
 
 
 class User(UserBase):
-    id: str
     created_at: datetime
     updated_at: datetime | None = None
-
-    @validator("created_at", "updated_at", pre=True)
-    def validate_datetime(cls, value):
-        if isinstance(value, DateTime):
-            # Convert the value to a Python datetime object
-            value = value.datetime
-        return value
 
     class Config:
         orm_mode = True
