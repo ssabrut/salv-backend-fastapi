@@ -21,7 +21,7 @@ depends_on = None
 def upgrade() -> None:
     op.create_table(
         "users",
-        Column("id", String(20), primary_key=True, unique=True, index=True),
+        Column("id", String(50), primary_key=True, unique=True, index=True),
         Column("type", Integer, nullable=False, index=True),
         Column("name", String(150), nullable=False, index=True),
         Column("username", String(50), nullable=False, unique=True),
@@ -43,7 +43,7 @@ def upgrade() -> None:
 
     op.create_table(
         "food_waste_categories",
-        Column("id", String(20), primary_key=True, unique=True, index=True),
+        Column("id", String(50), primary_key=True, unique=True, index=True),
         Column("name", String(20), nullable=False, index=True),
         Column("created_at", DateTime(timezone=True), default=func.now()),
         Column("updated_at", DateTime(timezone=True), nullable=True),
@@ -51,9 +51,9 @@ def upgrade() -> None:
 
     op.create_table(
         "advertisements",
-        Column("id", String(20), primary_key=True, unique=True, index=True),
-        Column("food_waste_category_id", String(20)),
-        Column("user_id", String(20)),
+        Column("id", String(50), primary_key=True, unique=True, index=True),
+        Column("food_waste_category_id", String(50)),
+        Column("user_id", String(50)),
         Column("status", String(20), nullable=False, default="ongoing", index=True),
         Column("title", Text, nullable=False, index=True),
         Column("retrieval_system", Integer, nullable=False, index=True),
@@ -89,10 +89,10 @@ def upgrade() -> None:
     op.create_table(
         "educations",
         Column(
-            "id", String(20), primary_key=True, unique=True, nullable=False, index=True
+            "id", String(50), primary_key=True, unique=True, nullable=False, index=True
         ),
-        Column("parent_id", String(20)),
-        Column("food_waste_category_id", String(20)),
+        Column("parent_id", String(50)),
+        Column("food_waste_category_id", String(50)),
         Column("title", String(255), nullable=False, index=True),
         Column("content", Text, nullable=False),
         Column("duration", Integer, nullable=True, default=0),
@@ -117,8 +117,8 @@ def upgrade() -> None:
         Column(
             "id", String(20), primary_key=True, unique=True, nullable=False, index=True
         ),
-        Column("user_id", String(20)),
-        Column("advertisement_id", String(20)),
+        Column("user_id", String(50)),
+        Column("advertisement_id", String(50)),
         Column("status", Integer, nullable=True, default=0),
         Column("retrieval_system", Integer, nullable=False, index=True),
         Column("weight", Integer, nullable=False, index=True),

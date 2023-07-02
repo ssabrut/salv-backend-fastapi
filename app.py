@@ -19,34 +19,13 @@ def get_db():
         db.close()
 
 
-class ModelName(str, Enum):
-    alexnet = "alexnet"
-    resnet = "resnet"
-    lenet = "lenet"
-
-
-# @app.get("/")
-# async def root():
-#     return {"message": "Hello"}
-
-
-@app.get("/items/{item_id}")
-async def read_item(item_id: int):
-    return {"item_id": item_id}
-
-
-@app.get("/models/{model_name}")
-async def get_model(model_name: ModelName):
-    if model_name is ModelName.alexnet:
-        return {"model_name": model_name}
-
-    if model_name.value == "lenet":
-        return {"model_name": model_name}
-    return {"model_name": model_name}
+@app.get("/")
+async def root():
+    return {"message": "Hello"}
 
 
 @app.post("/users/", response_model=UserSchema.UserResponse)
-def create_user(user: UserSchema.UserCreate, db: Session = Depends(get_db)):
+async def create_user(user: UserSchema.UserCreate, db: Session = Depends(get_db)):
     data = UserCrud.create(db=db, user=user)
     return jsonable_encoder(
         {"status_code": 200, "message": "register success", "data": data}

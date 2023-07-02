@@ -5,7 +5,7 @@ from sqlalchemy.sql import func
 
 class User(Base):
     __tablename__ = "users"
-    id = Column(String(20), primary_key=True, unique=True, index=True)
+    id = Column(String(50), primary_key=True, unique=True, index=True)
     type = Column(Integer, nullable=False, index=True)
     name = Column(String(150), nullable=False, index=True)
     username = Column(String(50), nullable=False, unique=True)
