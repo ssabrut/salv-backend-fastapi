@@ -1,13 +1,17 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from enum import Enum
-from db.engine import Base, engine, Session
+from db.engine import Base, engine
+from db.engine import Session as LocalSession
+from db.schemas import user
+from sqlalchemy.orm import Session
+from api.crud import user
 
 Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
 
 def get_db():
-    db = Session()
+    db = LocalSession()
     try:
         yield db
     finally:
@@ -38,3 +42,8 @@ async def get_model(model_name: ModelName):
     if model_name.value == "lenet":
         return {"model_name": model_name}
     return {"model_name": model_name}
+
+
+@app.post("/users/", response_model=user.User)
+def create_user(user: user.UserCreate, db: Session = Depends(get_db)):
+    return user.create(db=db, user=user)
