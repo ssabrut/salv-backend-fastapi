@@ -3,7 +3,6 @@ from datetime import datetime
 
 
 class UserBase(BaseModel):
-    id: str
     type: int
     name: str
     username: str
@@ -25,6 +24,7 @@ class UserCreate(UserBase):
 
 
 class User(UserBase):
+    id: str
     created_at: datetime
     updated_at: datetime | None = None
 
@@ -35,4 +35,4 @@ class User(UserBase):
 class UserResponse(BaseModel):
     status_code: int
     message: str
-    data: UserBase
+    data: User
