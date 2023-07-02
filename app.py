@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from db.engine import Base, engine
-from api.endpoint.user import router
+from api.endpoint.user import router as user_router
 
 
 Base.metadata.create_all(bind=engine)
@@ -12,7 +12,7 @@ async def root():
     return {"message": "Hello"}
 
 
-app.include_router(router)
+app.include_router(user_router)
 
 if __name__ == "__main__":
     import uvicorn
