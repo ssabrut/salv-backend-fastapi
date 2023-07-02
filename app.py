@@ -5,6 +5,7 @@ from db.engine import Session as LocalSession
 from db.schemas import user as UserSchema
 from sqlalchemy.orm import Session
 from api.crud import user as UserCrud
+from fastapi.encoders import jsonable_encoder
 
 Base.metadata.create_all(bind=engine)
 app = FastAPI()
@@ -44,6 +45,9 @@ async def get_model(model_name: ModelName):
     return {"model_name": model_name}
 
 
-@app.post("/users/", response_model=UserSchema.User)
+@app.post("/users/", response_model=UserSchema.UserResponse)
 def create_user(user: UserSchema.UserCreate, db: Session = Depends(get_db)):
-    return UserCrud.create(db=db, user=user)
+    data = UserCrud.create(db=db, user=user)
+    return jsonable_encoder(
+        {"status_code": 200, "message": "register success", "data": data}
+    )

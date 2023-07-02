@@ -6,10 +6,10 @@ from db.models import user as UserModel
 def create(db: Session, user: UserSchema.UserCreate):
     fake_hashed_password = user.password + "notreallyhashed"
     db_user = UserModel.User(
-        id="asjd02312oih",
+        id="asd21fgag",
         type=0,
         name="Achmad Rijalu",
-        username="achjaluwae",
+        username="asd2g",
         password=fake_hashed_password,
         phone_number="120497123",
         province="Jawa Timur",

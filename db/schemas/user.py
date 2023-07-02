@@ -30,3 +30,9 @@ class User(UserBase):
 
     class Config:
         orm_mode = True
+
+
+class UserResponse(BaseModel):
+    status_code: int
+    message: str
+    data: UserBase
