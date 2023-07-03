@@ -35,4 +35,9 @@ class User(UserBase):
 class UserResponse(BaseModel):
     status_code: int
     message: str
-    data: User
+    data: User | None = None
+
+
+class UserLogin(BaseModel):
+    username: str
+    password: str

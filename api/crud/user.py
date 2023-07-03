@@ -2,14 +2,12 @@ from sqlalchemy.orm import Session
 from db.schemas import user as UserSchema
 from db.models import user as UserModel
 import uuid
-from passlib.context import CryptContext
-
-password_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+from utils import get_password_hash, verify_password
 
 
 async def create(db: Session, user: UserSchema.UserCreate):
     _uuid = str(uuid.uuid4())
-    hashed_password = password_context.hash(user.password)
+    hashed_password = get_password_hash(user.password)
     data = {
         "id": _uuid,
         "type": user.type,
@@ -33,3 +31,16 @@ async def create(db: Session, user: UserSchema.UserCreate):
     db.commit()
     db.refresh(db_user)
     return db_user
+
+
+async def authenticate(db: Session, username: str, password: str):
+    user = (
+        db.query(UserModel.User)
+        .filter(UserModel.User.username == username)
+        .first()
+    )
+    if not user:
+        return False
+    if not verify_password(password, user.password):
+        return False
+    return user
