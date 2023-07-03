@@ -11,7 +11,7 @@ router = APIRouter()
 @router.post("/users/register", response_model=UserSchema.UserResponse)
 async def create_user(user: UserSchema.UserCreate, db: Session = Depends(get_db)):
     try:
-        data = await UserCrud.create(db=db, user=user)
+        data = await UserCrud.register(db=db, user=user)
         return jsonable_encoder(
             {"status_code": 200, "message": "register success", "data": data}
         )
@@ -25,6 +25,7 @@ async def read_user(user: UserSchema.UserLogin, db: Session = Depends(get_db)):
         data = await UserCrud.authenticate(
             db=db, username=user.username, password=user.password
         )
+
         if data:
             return jsonable_encoder(
                 {"status_code": 200, "message": "authenticated", "data": data}
