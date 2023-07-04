@@ -31,3 +31,27 @@ async def create_advertisement(
         )
     except Exception as e:
         return jsonable_encoder({"status_code": 500, "message": str(e)})
+
+
+@router.get("/advertisements/{advertisement_id}")
+async def get_advertisement(advertisement_id: str, db: Session = Depends(get_db)):
+    try:
+        data = await AdvertisementCrud.get(db=db, advertisement_id=advertisement_id)
+
+        if data:
+            return jsonable_encoder(
+                {
+                    "status_code": 200,
+                    "message": "advertisement found",
+                    "data": data,
+                }
+            )
+        return jsonable_encoder(
+            {
+                "status_code": 400,
+                "message": "advertisement not found",
+            }
+        )
+
+    except Exception as e:
+        return jsonable_encoder({"status_code": 500, "message": str(e)})

@@ -16,9 +16,7 @@ async def index(db: Session, user_id: str):
         return advertisements
 
 
-async def create(
-    db: Session, advertisement: AdvertisementSchema.AdvertisementBase
-):
+async def create(db: Session, advertisement: AdvertisementSchema.AdvertisementBase):
     _uuid = str(uuid.uuid4())
     data = {
         "id": _uuid,
@@ -41,3 +39,15 @@ async def create(
     db.commit()
     db.refresh(db_advertisement)
     return db_advertisement
+
+
+async def get(db: Session, advertisement_id: str):
+    advertisement = (
+        db.query(AdvertisementModel.Advertisement)
+        .filter(AdvertisementModel.Advertisement.id == advertisement_id)
+        .first()
+    )
+
+    if not advertisement:
+        return False
+    return advertisement
