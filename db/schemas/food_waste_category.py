@@ -18,4 +18,4 @@ class FoodWasteCategory(FoodWasteCategoryBase):
 class FoodWasteCategoryResponse(BaseModel):
     status_code: int
     message: str
-    data: FoodWasteCategory | None = None
+    data: list | None = None
