@@ -8,7 +8,9 @@ from api.crud import advertisement as AdvertisementCrud
 router = APIRouter()
 
 
-@router.post("/advertisements/create")
+@router.post(
+    "/advertisements/create", response_model=AdvertisementSchema.AdvertisementResponse
+)
 async def create_advertisement(
     advertisement: AdvertisementSchema.AdvertisementBase, db: Session = Depends(get_db)
 ):
@@ -33,7 +35,9 @@ async def create_advertisement(
         return jsonable_encoder({"status_code": 500, "message": str(e)})
 
 
-@router.get("/advertisements/{advertisement_id}")
+@router.get(
+    "/advertisements/{advertisement_id}",
+)
 async def get_advertisement(advertisement_id: str, db: Session = Depends(get_db)):
     try:
         data = await AdvertisementCrud.get(db=db, advertisement_id=advertisement_id)

@@ -15,6 +15,7 @@ class Advertisement(Base):
     location = Column(Text, nullable=False)
     additional_information = Column(Text, nullable=True, default="")
     price = Column(Integer, nullable=False)
+    ongoing_weight = Column(Integer, nullable=True, default=0)
     requested_weight = Column(Integer, nullable=False)
     minimum_weight = Column(Integer, nullable=False)
     maximum_weight = Column(Integer, nullable=False)
