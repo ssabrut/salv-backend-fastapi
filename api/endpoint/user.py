@@ -8,7 +8,7 @@ from api.endpoint import get_db
 router = APIRouter()
 
 
-@router.post("/users/register", response_model=UserSchema.UserResponse)
+@router.post("/register", response_model=UserSchema.UserResponse)
 async def create_user(user: UserSchema.UserCreate, db: Session = Depends(get_db)):
     try:
         data = await UserCrud.register(db=db, user=user)
@@ -19,7 +19,7 @@ async def create_user(user: UserSchema.UserCreate, db: Session = Depends(get_db)
         return jsonable_encoder({"status_code": 500, "message": str(e)})
 
 
-@router.post("/users/login", response_model=UserSchema.UserResponse)
+@router.post("/login", response_model=UserSchema.UserResponse)
 async def read_user(user: UserSchema.UserLogin, db: Session = Depends(get_db)):
     try:
         data = await UserCrud.authenticate(

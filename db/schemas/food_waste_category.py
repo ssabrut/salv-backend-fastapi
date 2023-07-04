@@ -13,3 +13,9 @@ class FoodWasteCategory(FoodWasteCategoryBase):
 
     class Config:
         orm_mode = True
+
+
+class FoodWasteCategoryResponse(BaseModel):
+    status_code: int
+    message: str
+    data: list(FoodWasteCategory) | None = None
