@@ -13,6 +13,18 @@ async def index(db: Session, user_id: str):
             .filter(AdvertisementModel.Advertisement.user_id == user_id)
             .all()
         )
+
+        for i in range(len(advertisements)):
+            advertisements[i] = {
+                "id": advertisements[i].id,
+                "ongoing_weight": advertisements[i].ongoing_weight,
+                "minimum_weight": advertisements[i].minimum_weight,
+                "title": advertisements[i].title,
+                "price": advertisements[i].price,
+                "requested_weight": advertisements[i].requested_weight,
+                "maximum_weight": advertisements[i].maximum_weight,
+            }
+
         return advertisements
 
 
