@@ -1,9 +1,11 @@
 from pydantic import BaseModel
 from datetime import datetime
+from db.schemas import Response
 
 
 class AdvertisementBase(BaseModel):
-    status: str
+    food_waste_category_id: str
+    user_id: str
     title: str
     retrieval_system: int
     location: str
@@ -16,10 +18,12 @@ class AdvertisementBase(BaseModel):
 
 class Advertisement(AdvertisementBase):
     id: str
-    food_waste_category_id: str
-    user_id: str
     created_at: datetime
     updated_at: datetime | None = None
 
     class Config:
         orm_mode = True
+
+
+class AdvertisementResponse(Response):
+    data: list | Advertisement | None = None

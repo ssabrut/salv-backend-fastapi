@@ -12,9 +12,12 @@ router = APIRouter()
 async def create_user(user: UserSchema.UserCreate, db: Session = Depends(get_db)):
     try:
         data = await UserCrud.register(db=db, user=user)
-        return jsonable_encoder(
-            {"status_code": 200, "message": "register success", "data": data}
-        )
+
+        if data:
+            return jsonable_encoder(
+                {"status_code": 200, "message": "register success", "data": data}
+            )
+        return jsonable_encoder({"status_code": 400, "message": "register failed"})
     except Exception as e:
         return jsonable_encoder({"status_code": 500, "message": str(e)})
 
@@ -30,7 +33,6 @@ async def read_user(user: UserSchema.UserLogin, db: Session = Depends(get_db)):
             return jsonable_encoder(
                 {"status_code": 200, "message": "authenticated", "data": data}
             )
-        else:
-            return jsonable_encoder({"status_code": 401, "message": "user not found"})
+        return jsonable_encoder({"status_code": 401, "message": "user not found"})
     except Exception as e:
         return jsonable_encoder({"status_code": 500, "message": str(e)})

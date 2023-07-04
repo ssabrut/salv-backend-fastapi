@@ -14,8 +14,17 @@ async def create_category(
 ):
     try:
         data = await CategoryCrud.create(db=db, category=category)
+
+        if data:
+            return jsonable_encoder(
+                {
+                    "status_code": 200,
+                    "message": "success to create category",
+                    "data": data,
+                }
+            )
         return jsonable_encoder(
-            {"status_code": 200, "message": "success", "data": data}
+            {"status_code": 400, "message": "failed to create category"}
         )
     except Exception as e:
         return jsonable_encoder({"status_code": 500, "message": str(e)})
@@ -27,8 +36,20 @@ async def create_category(
 async def read_category(db: Session = Depends(get_db)):
     try:
         data = await CategoryCrud.index(db)
+
+        if data:
+            return jsonable_encoder(
+                {
+                    "status_code": 200,
+                    "message": "success get all category",
+                    "data": data,
+                }
+            )
         return jsonable_encoder(
-            {"status_code": 200, "message": "success get all category", "data": data}
+            {
+                "status_code": 400,
+                "message": "failed get all category",
+            }
         )
     except Exception as e:
         return jsonable_encoder({"status_code": 500, "message": str(e)})

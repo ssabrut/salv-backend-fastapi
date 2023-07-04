@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from datetime import datetime
+from db.schemas import Response
 
 
 class FoodWasteCategoryBase(BaseModel):
@@ -15,7 +16,5 @@ class FoodWasteCategory(FoodWasteCategoryBase):
         orm_mode = True
 
 
-class FoodWasteCategoryResponse(BaseModel):
-    status_code: int
-    message: str
-    data: list | None = None
+class FoodWasteCategoryResponse(Response):
+    data: list | FoodWasteCategory | None = None

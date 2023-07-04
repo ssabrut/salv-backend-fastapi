@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from datetime import datetime
+from db.schemas import Response
 
 
 class UserBase(BaseModel):
@@ -32,9 +33,7 @@ class User(UserBase):
         orm_mode = True
 
 
-class UserResponse(BaseModel):
-    status_code: int
-    message: str
+class UserResponse(Response):
     data: User | None = None
 
 
