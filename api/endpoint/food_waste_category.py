@@ -8,12 +8,18 @@ from api.crud import food_waste_category as CategoryCrud
 router = APIRouter()
 
 
-@router.post('/food-waste-categories/create')
-async def create_category(category: CategorySchema.FoodWasteCategory, db: Session = Depends(get_db)):
+@router.post("/food-waste-categories/create")
+async def create_category(
+    category: CategorySchema.FoodWasteCategoryBase, db: Session = Depends(get_db)
+):
     try:
         data = await CategoryCrud.create(db=db, category=category)
+        return jsonable_encoder(
+            {"status_code": 200, "message": "success", "data": data}
+        )
     except Exception as e:
-        return jsonable_encoder({'status_code': 500, 'message': str(e)})
+        return jsonable_encoder({"status_code": 500, "message": str(e)})
+
 
 @router.get(
     "/food-waste-categories", response_model=CategorySchema.FoodWasteCategoryResponse
