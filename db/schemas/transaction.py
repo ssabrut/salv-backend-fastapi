@@ -10,11 +10,11 @@ class TransactionBase(BaseModel):
     weight: int
     location: str
     image: str
-    total_price: int
 
 
 class Transaction(TransactionBase):
     id: str
+    total_price: int
     created_at: datetime
     updated_at: datetime | None = None
 

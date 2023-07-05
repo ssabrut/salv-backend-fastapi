@@ -8,7 +8,7 @@ from api.crud import advertisement as AdvertisementCrud
 router = APIRouter()
 
 
-@router.get("/advertisements/{user_id}")
+@router.get("/advertisements/user/{user_id}")
 async def all_advertisement(user_id: str, db: Session = Depends(get_db)):
     try:
         data = await AdvertisementCrud.index(db=db, user_id=user_id)

@@ -14,6 +14,7 @@ class Transaction(Base):
     weight = Column(Integer, nullable=False, index=True)
     location = Column(Text, nullable=False, index=True)
     image = Column(String(255), nullable=False, index=True)
+    total_price = Column(Integer, nullable=False, index=True)
     created_at = Column(DateTime(timezone=True), default=func.now())
     updated_at = Column(DateTime(timezone=True), nullable=True)
 

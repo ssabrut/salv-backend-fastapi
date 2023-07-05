@@ -7,6 +7,8 @@ import uuid
 
 async def index(db: Session, user_id: str):
     user = db.query(UserModel.User).filter(UserModel.User.id == user_id).first()
+    advertisements = db.query(AdvertisementModel.Advertisement).all()
+
     if user.type == 2:
         advertisements = (
             db.query(AdvertisementModel.Advertisement)
@@ -25,7 +27,7 @@ async def index(db: Session, user_id: str):
                 "maximum_weight": advertisements[i].maximum_weight,
             }
 
-        return advertisements
+    return advertisements
 
 
 async def create(db: Session, advertisement: AdvertisementSchema.AdvertisementBase):

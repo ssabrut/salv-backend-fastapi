@@ -115,7 +115,7 @@ def upgrade() -> None:
     op.create_table(
         "transactions",
         Column(
-            "id", String(20), primary_key=True, unique=True, nullable=False, index=True
+            "id", String(50), primary_key=True, unique=True, nullable=False, index=True
         ),
         Column("user_id", String(50)),
         Column("advertisement_id", String(50)),
