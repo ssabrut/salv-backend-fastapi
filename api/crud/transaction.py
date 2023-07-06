@@ -34,19 +34,29 @@ async def create(db: Session, transaction: TransactionSchema.TransactionBase):
         .first()
     )
 
-    data = {
-        "id": _uuid,
-        "user_id": transaction.user_id,
-        "advertisement_id": transaction.advertisement_id,
-        "retrieval_system": transaction.retrieval_system,
-        "weight": transaction.weight,
-        "location": transaction.location,
-        "image": transaction.image,
-        "total_price": transaction.weight * advertisement.price,
-    }
+    if advertisement.ongoing_weight == advertisement.requested_weight:
+        advertisement.status = "finished"
+        return "advertisement has reached target"
 
-    db_transaction = TransactionModel.Transaction(**data)
-    db.add(db_transaction)
-    db.commit()
-    db.refresh(db_transaction)
-    return db_transaction
+    if (
+        advertisement.ongoing_weight + transaction.weight
+        <= advertisement.requested_weight
+    ):
+        data = {
+            "id": _uuid,
+            "user_id": transaction.user_id,
+            "advertisement_id": transaction.advertisement_id,
+            "retrieval_system": transaction.retrieval_system,
+            "weight": transaction.weight,
+            "location": transaction.location,
+            "image": transaction.image,
+            "total_price": transaction.weight * advertisement.price,
+        }
+
+        db_transaction = TransactionModel.Transaction(**data)
+        advertisement.ongoing_weight += transaction.weight
+        db.add(db_transaction)
+        db.commit()
+        db.refresh(db_transaction)
+        return db_transaction
+    return "weight exceed the target"

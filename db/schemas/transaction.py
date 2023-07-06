@@ -23,4 +23,4 @@ class Transaction(TransactionBase):
 
 
 class TransactionResponse(Response):
-    data: list | Transaction | None = None
+    data: str | list | Transaction | None = None
