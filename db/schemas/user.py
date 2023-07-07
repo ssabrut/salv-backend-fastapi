@@ -34,7 +34,7 @@ class User(UserBase):
 
 
 class UserResponse(Response):
-    data: User | None = None
+    data: str | User | None = None
 
 
 class UserLogin(BaseModel):

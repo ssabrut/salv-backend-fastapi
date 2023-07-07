@@ -8,6 +8,16 @@ from utils import get_password_hash, verify_password
 async def register(db: Session, user: UserSchema.UserCreate):
     _uuid = str(uuid.uuid4())
     hashed_password = get_password_hash(user.password)
+    if (
+        db.query(UserModel.User)
+        .filter(UserModel.User.username == user.username)
+        .first()
+    ):
+        return "username exist"
+
+    while db.query(UserModel.User).filter(UserModel.User.id == _uuid).first():
+        _uuid = str(uuid.uuid4())
+
     data = {
         "id": _uuid,
         "type": user.type,
