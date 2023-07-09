@@ -14,9 +14,7 @@ async def top_up(user_id: str, amount: int, db: Session = Depends(get_db)):
         data = await MidTransCrud.top_up(user_id=user_id, amount=amount, db=db)
 
         if type(data) is not str and data:
-            return jsonable_encoder(
-                {"status_code": 200, "message": "top up success", "data": data}
-            )
+            return jsonable_encoder(data)
         return jsonable_encoder(
             {"status_code": 400, "message": "register failed", "data": data}
         )
