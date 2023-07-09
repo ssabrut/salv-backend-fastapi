@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Session, joinedload
+from sqlalchemy.orm import Session
 from db.models import transaction as TransactionModel
 from db.schemas import transaction as TransactionSchema
 from db.models import advertisement as AdvertisementModel

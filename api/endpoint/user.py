@@ -13,7 +13,7 @@ async def create_user(user: UserSchema.UserCreate, db: Session = Depends(get_db)
     try:
         data = await UserCrud.register(db=db, user=user)
 
-        if type(data) is not str:
+        if type(data) is not str and data:
             return jsonable_encoder(
                 {"status_code": 200, "message": "register success", "data": data}
             )

@@ -119,7 +119,7 @@ def upgrade() -> None:
         ),
         Column("user_id", String(50)),
         Column("advertisement_id", String(50)),
-        Column("status", Integer, nullable=True, default=0),
+        Column("status", String(10), nullable=True, default='pending'),
         Column("retrieval_system", Integer, nullable=False, index=True),
         Column("weight", Integer, nullable=False, index=True),
         Column("location", Text, nullable=False, index=True),
