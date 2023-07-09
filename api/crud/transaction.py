@@ -60,3 +60,6 @@ async def create(db: Session, transaction: TransactionSchema.TransactionBase):
         db.refresh(db_transaction)
         return db_transaction
     return "weight exceed the target"
+
+async def top_up(db: Session, user_id: str):
+    pass
