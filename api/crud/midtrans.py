@@ -26,6 +26,7 @@ async def top_up(user_id: str, amount: int, db: Session):
             "customer_details": {
                 "first_name": user.name.split()[0],
                 "last_name": user.name.split()[-1],
+                "email": user.email,
                 "phone": user.phone_number,
             },
         }

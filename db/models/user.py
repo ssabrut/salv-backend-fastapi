@@ -10,6 +10,7 @@ class User(Base):
     name = Column(String(150), nullable=False, index=True)
     username = Column(String(50), nullable=False, unique=True)
     password = Column(String(150), nullable=False)
+    email = Column(String(100), nullable=False, unique=True, index=True)
     phone_number = Column(String(15), nullable=False, index=True)
     point = Column(Integer, default=0, nullable=False, index=True)
     province = Column(String(50), nullable=False, index=True)

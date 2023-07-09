@@ -23,6 +23,7 @@ async def register(db: Session, user: UserSchema.UserCreate):
         "type": user.type,
         "name": user.name,
         "username": user.username,
+        "email": user.email,
         "password": hashed_password,
         "phone_number": user.phone_number,
         "province": user.province,

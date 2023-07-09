@@ -7,6 +7,7 @@ class UserBase(BaseModel):
     type: int
     name: str
     username: str
+    email: str
     phone_number: str
     province: str
     city: str
