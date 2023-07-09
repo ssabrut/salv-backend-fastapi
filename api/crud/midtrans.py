@@ -1,8 +1,10 @@
 from sqlalchemy.orm import Session
 from db.models import user as UserModel
+from db.models import invoice as InvoiceModel
 import uuid
 from decouple import config
 import midtransclient
+from api.crud import invoice as InvoiceCrud
 
 
 core_api = midtransclient.CoreApi(
@@ -32,5 +34,9 @@ async def top_up(user_id: str, amount: int, db: Session):
         }
 
         charge_response = core_api.charge(param)
-        return charge_response
+        if charge_response:
+            await InvoiceCrud.create_invoice(
+                user_id=user_id, order_id=_uuid, amount=amount, db=db
+            )
+            return charge_response
     return "user not found"
