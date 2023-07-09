@@ -7,7 +7,7 @@ from api.endpoint import get_db
 
 router = APIRouter()
 
-
+# type 3 = seller (mahasiswa), type 2 = buyer (pabrik)
 @router.post("/register", response_model=UserSchema.UserResponse)
 async def create_user(user: UserSchema.UserCreate, db: Session = Depends(get_db)):
     try:
