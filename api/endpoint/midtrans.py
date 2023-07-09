@@ -22,6 +22,14 @@ async def top_up(user_id: str, amount: int, db: Session = Depends(get_db)):
         return jsonable_encoder({"status_code": 500, "message": str(e)})
 
 
+@router.post("/midtrans/cancel/{order_id}")
+async def cancel(order_id: str):
+    try:
+        await MidTransCrud.cancel(order_id=order_id)
+    except Exception as e:
+        return jsonable_encoder({"status_code": 500, "message": str(e)})
+
+
 # @router.get("/midtrans/test")
 # async def test():
 #     param = {

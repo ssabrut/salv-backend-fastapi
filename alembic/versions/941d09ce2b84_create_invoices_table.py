@@ -23,8 +23,6 @@ def upgrade() -> None:
         sa.Column("id", sa.String(50), primary_key=True, unique=True, index=True),
         sa.Column("user_id", sa.String(50)),
         sa.Column("order_id", sa.String(50), index=True),
-        sa.Column("amount", sa.Integer, index=True),
-        sa.Column("status", sa.String(20), index=True),
         sa.Column("created_at", sa.DateTime(timezone=True), default=func.now()),
         sa.Column("updated_at", sa.DateTime(timezone=True), nullable=True),
     )

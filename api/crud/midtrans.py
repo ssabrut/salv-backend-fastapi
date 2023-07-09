@@ -1,6 +1,5 @@
 from sqlalchemy.orm import Session
 from db.models import user as UserModel
-from db.models import invoice as InvoiceModel
 import uuid
 from decouple import config
 import midtransclient
