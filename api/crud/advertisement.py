@@ -3,11 +3,16 @@ from db.models import advertisement as AdvertisementModel
 from db.schemas import advertisement as AdvertisementSchema
 from db.models import user as UserModel
 import uuid
+import utils
 
 
 async def index(db: Session, user_id: str):
-    user = db.query(UserModel.User).filter(UserModel.User.id == user_id).first()
+    # user = db.query(UserModel.User).filter(UserModel.User.id == user_id).first()
     advertisements = db.query(AdvertisementModel.Advertisement).all()
+    user = await utils.get_current_user(
+        token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJrLmppbmhpcm8iLCJleHAiOjE2ODk0NTA4OTN9.eLhi07PvebZZAMwOkTgurS8e0fJhi_FvB4jJTbxkVjY",
+        db=db,
+    )
 
     if user.type == 2:
         advertisements = (

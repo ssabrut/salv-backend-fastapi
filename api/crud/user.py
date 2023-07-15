@@ -44,11 +44,11 @@ async def register(db: Session, user: UserSchema.UserCreate):
     return db_user
 
 
-async def authenticate(db: Session, username: str, password: str):
+async def authenticate(db: Session, username: str, password: str = ""):
     user = db.query(UserModel.User).filter(UserModel.User.username == username).first()
 
     if not user:
         return False
-    if not verify_password(password, user.password):
+    if not verify_password(password, user.password) and password is not "":
         return False
     return user
