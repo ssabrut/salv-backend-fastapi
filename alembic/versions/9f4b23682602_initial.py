@@ -119,7 +119,7 @@ def upgrade() -> None:
         ),
         Column("user_id", String(50)),
         Column("advertisement_id", String(50)),
-        Column("status", String(10), nullable=True, default='pending'),
+        Column("status", String(10), nullable=True, default="pending"),
         Column("retrieval_system", Integer, nullable=False, index=True),
         Column("weight", Integer, nullable=False, index=True),
         Column("location", Text, nullable=False, index=True),
@@ -153,13 +153,11 @@ def downgrade() -> None:
     op.drop_constraint(
         "fk_advertisements_user_id", "advertisements", type_="foreignkey"
     )
-    op.drop_constraint("fk_educations_parent_id", "educations", type_="foreignkey")
     op.drop_constraint("fk_transactions_user_id", "transactions", type_="foreignkey")
     op.drop_constraint(
         "fk_transactions_advertisement_id", "transactions", type_="foreignkey"
     )
     op.drop_table("transactions")
     op.drop_table("advertisements")
-    op.drop_table("educations")
     op.drop_table("users")
     op.drop_table("food_waste_categories")
