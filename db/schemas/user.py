@@ -35,6 +35,8 @@ class User(UserBase):
 
 
 class UserResponse(Response):
+    token: str
+    token_type: str
     data: str | User | None = None
 
 

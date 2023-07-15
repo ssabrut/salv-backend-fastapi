@@ -15,10 +15,20 @@ router = APIRouter()
 async def create_user(user: UserSchema.UserCreate, db: Session = Depends(get_db)):
     try:
         data = await UserCrud.register(db=db, user=user)
+        access_token_expires = timedelta(minutes=utils.ACCESS_TOKEN_EXPIRE_MINUTES)
+        access_token = utils.create_access_token(
+            data={"sub": user.username}, expires_delta=access_token_expires
+        )
 
         if type(data) is not str and data:
             return jsonable_encoder(
-                {"status_code": 200, "message": "register success", "data": data}
+                {
+                    "status_code": 200,
+                    "message": "register success",
+                    "token": access_token,
+                    "token_type": "bearer",
+                    "data": data,
+                }
             )
         return jsonable_encoder(
             {"status_code": 400, "message": "register failed", "data": data}
@@ -27,7 +37,7 @@ async def create_user(user: UserSchema.UserCreate, db: Session = Depends(get_db)
         return jsonable_encoder({"status_code": 500, "message": str(e)})
 
 
-@router.post("/login")
+@router.post("/login", response_model=UserSchema.UserResponse)
 async def read_user(user: UserSchema.UserLogin, db: Session = Depends(get_db)):
     try:
         data = await UserCrud.authenticate(
