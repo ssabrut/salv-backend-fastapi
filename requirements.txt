@@ -1,5 +1,6 @@
 alembic==1.11.1
 anyio==3.7.0
+azure-functions
 bcrypt==4.0.1
 certifi==2023.5.7
 cffi==1.15.1
