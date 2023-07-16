@@ -7,7 +7,6 @@ class AdvertisementBase(BaseModel):
     food_waste_category_id: str
     user_id: str
     title: str
-    retrieval_system: int
     location: str
     additional_information: str | None = ""
     price: int

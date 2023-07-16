@@ -50,7 +50,6 @@ async def create(
             "food_waste_category_id": advertisement.food_waste_category_id,
             "user_id": advertisement.user_id,
             "title": advertisement.title,
-            "retrieval_system": advertisement.retrieval_system,
             "location": advertisement.location,
             "additional_information": advertisement.additional_information
             if advertisement.additional_information
@@ -81,7 +80,6 @@ async def get(db: Session, advertisement_id: str):
     advertisement = {
         "id": advertisement.id,
         "status": advertisement.status,
-        "retrieval_system": advertisement.retrieval_system,
         "additional_information": advertisement.additional_information,
         "ongoing_weight": advertisement.ongoing_weight,
         "minimum_weight": advertisement.minimum_weight,
