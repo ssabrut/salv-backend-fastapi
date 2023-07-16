@@ -3,6 +3,7 @@ from db.models import advertisement as AdvertisementModel
 from db.schemas import advertisement as AdvertisementSchema
 import uuid
 import utils
+from sqlalchemy import func
 
 
 async def index(db: Session, user_id: str, token: str):
@@ -101,4 +102,32 @@ async def get(db: Session, advertisement_id: str, token: str):
         if not advertisement:
             return False
         return advertisement
+    return utils.credentials_exception
+
+
+async def search(db: Session, query: str, token: str):
+    user = await utils.get_current_user(token=token, db=db)
+
+    if user:
+        advertisements = (
+            db.query(AdvertisementModel.Advertisement)
+            .filter(
+                func.lower(AdvertisementModel.Advertisement.title).like(
+                    "%" + query.lower() + "%"
+                )
+            )
+            .all()
+        )
+
+        for i in range(len(advertisements)):
+            advertisements[i] = {
+                "id": advertisements[i].id,
+                "ongoing_weight": advertisements[i].ongoing_weight,
+                "minimum_weight": advertisements[i].minimum_weight,
+                "title": advertisements[i].title,
+                "price": advertisements[i].price,
+                "requested_weight": advertisements[i].requested_weight,
+                "maximum_weight": advertisements[i].maximum_weight,
+            }
+        return advertisements
     return utils.credentials_exception

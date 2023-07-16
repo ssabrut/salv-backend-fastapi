@@ -87,6 +87,31 @@ async def get_advertisement(
                 "message": "advertisement not found",
             }
         )
+    except Exception as e:
+        return jsonable_encoder({"status_code": 500, "message": str(e)})
 
+
+@router.get("/advertisements/search/{query}")
+async def search_advertisement(
+    query: str, request: Request, db: Session = Depends(get_db)
+):
+    try:
+        token = request.headers["authorization"].split()[-1]
+        data = await AdvertisementCrud.search(db=db, query=query, token=token)
+
+        if data:
+            return jsonable_encoder(
+                {
+                    "status_code": 200,
+                    "message": "advertisements found",
+                    "data": data,
+                }
+            )
+        return jsonable_encoder(
+            {
+                "status_code": 400,
+                "message": "no advertisements found",
+            }
+        )
     except Exception as e:
         return jsonable_encoder({"status_code": 500, "message": str(e)})
