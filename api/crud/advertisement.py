@@ -68,30 +68,37 @@ async def create(
     return utils.credentials_exception
 
 
-async def get(db: Session, advertisement_id: str):
-    advertisement = (
-        db.query(AdvertisementModel.Advertisement)
-        .options(joinedload(AdvertisementModel.Advertisement.food_waste_category))
-        .options(joinedload(AdvertisementModel.Advertisement.user))
-        .filter(AdvertisementModel.Advertisement.id == advertisement_id)
-        .first()
+async def get(db: Session, advertisement_id: str, token: str):
+    user = await utils.get_current_user(
+        token=token,
+        db=db,
     )
 
-    advertisement = {
-        "id": advertisement.id,
-        "status": advertisement.status,
-        "additional_information": advertisement.additional_information,
-        "ongoing_weight": advertisement.ongoing_weight,
-        "minimum_weight": advertisement.minimum_weight,
-        "title": advertisement.title,
-        "location": advertisement.location,
-        "price": advertisement.price,
-        "requested_weight": advertisement.requested_weight,
-        "maximum_weight": advertisement.maximum_weight,
-        "user": advertisement.user.name,
-        "category": advertisement.food_waste_category.name,
-    }
+    if user:
+        advertisement = (
+            db.query(AdvertisementModel.Advertisement)
+            .options(joinedload(AdvertisementModel.Advertisement.food_waste_category))
+            .options(joinedload(AdvertisementModel.Advertisement.user))
+            .filter(AdvertisementModel.Advertisement.id == advertisement_id)
+            .first()
+        )
 
-    if not advertisement:
-        return False
-    return advertisement
+        advertisement = {
+            "id": advertisement.id,
+            "status": advertisement.status,
+            "additional_information": advertisement.additional_information,
+            "ongoing_weight": advertisement.ongoing_weight,
+            "minimum_weight": advertisement.minimum_weight,
+            "title": advertisement.title,
+            "location": advertisement.location,
+            "price": advertisement.price,
+            "requested_weight": advertisement.requested_weight,
+            "maximum_weight": advertisement.maximum_weight,
+            "user": advertisement.user.name,
+            "category": advertisement.food_waste_category.name,
+        }
+
+        if not advertisement:
+            return False
+        return advertisement
+    return utils.credentials_exception

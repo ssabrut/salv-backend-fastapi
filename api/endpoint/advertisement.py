@@ -64,9 +64,14 @@ async def create_advertisement(
 
 
 @router.get("/advertisements/{advertisement_id}")
-async def get_advertisement(advertisement_id: str, db: Session = Depends(get_db)):
+async def get_advertisement(
+    advertisement_id: str, request: Request, db: Session = Depends(get_db)
+):
     try:
-        data = await AdvertisementCrud.get(db=db, advertisement_id=advertisement_id)
+        token = request.headers["authorization"].split()[-1]
+        data = await AdvertisementCrud.get(
+            db=db, advertisement_id=advertisement_id, token=token
+        )
 
         if data:
             return jsonable_encoder(
