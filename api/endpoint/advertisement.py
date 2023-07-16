@@ -35,10 +35,15 @@ async def all_advertisement(
     "/advertisements/create", response_model=AdvertisementSchema.AdvertisementResponse
 )
 async def create_advertisement(
-    advertisement: AdvertisementSchema.AdvertisementBase, db: Session = Depends(get_db)
+    advertisement: AdvertisementSchema.AdvertisementBase,
+    request: Request,
+    db: Session = Depends(get_db),
 ):
     try:
-        data = await AdvertisementCrud.create(db=db, advertisement=advertisement)
+        token = request.headers["authorization"].split()[-1]
+        data = await AdvertisementCrud.create(
+            db=db, advertisement=advertisement, token=token
+        )
 
         if data:
             return jsonable_encoder(

@@ -12,12 +12,13 @@ async def index(db: Session, user_id: str, token: str):
         db=db,
     )
 
-    if user.type == 2:
-        advertisements = (
-            db.query(AdvertisementModel.Advertisement)
-            .filter(AdvertisementModel.Advertisement.user_id == user_id)
-            .all()
-        )
+    if user:
+        if user.type == 2:
+            advertisements = (
+                db.query(AdvertisementModel.Advertisement)
+                .filter(AdvertisementModel.Advertisement.user_id == user_id)
+                .all()
+            )
 
         for i in range(len(advertisements)):
             advertisements[i] = {
@@ -30,32 +31,42 @@ async def index(db: Session, user_id: str, token: str):
                 "maximum_weight": advertisements[i].maximum_weight,
             }
 
-    return advertisements
+        return advertisements
+    return utils.credentials_exception
 
 
-async def create(db: Session, advertisement: AdvertisementSchema.AdvertisementBase):
+async def create(
+    db: Session, advertisement: AdvertisementSchema.AdvertisementBase, token: str
+):
     _uuid = str(uuid.uuid4())
-    data = {
-        "id": _uuid,
-        "food_waste_category_id": advertisement.food_waste_category_id,
-        "user_id": advertisement.user_id,
-        "title": advertisement.title,
-        "retrieval_system": advertisement.retrieval_system,
-        "location": advertisement.location,
-        "additional_information": advertisement.additional_information
-        if advertisement.additional_information
-        else "",
-        "price": advertisement.price,
-        "requested_weight": advertisement.requested_weight,
-        "minimum_weight": advertisement.minimum_weight,
-        "maximum_weight": advertisement.maximum_weight,
-    }
+    user = await utils.get_current_user(
+        token=token,
+        db=db,
+    )
 
-    db_advertisement = AdvertisementModel.Advertisement(**data)
-    db.add(db_advertisement)
-    db.commit()
-    db.refresh(db_advertisement)
-    return db_advertisement
+    if user:
+        data = {
+            "id": _uuid,
+            "food_waste_category_id": advertisement.food_waste_category_id,
+            "user_id": advertisement.user_id,
+            "title": advertisement.title,
+            "retrieval_system": advertisement.retrieval_system,
+            "location": advertisement.location,
+            "additional_information": advertisement.additional_information
+            if advertisement.additional_information
+            else "",
+            "price": advertisement.price,
+            "requested_weight": advertisement.requested_weight,
+            "minimum_weight": advertisement.minimum_weight,
+            "maximum_weight": advertisement.maximum_weight,
+        }
+
+        db_advertisement = AdvertisementModel.Advertisement(**data)
+        db.add(db_advertisement)
+        db.commit()
+        db.refresh(db_advertisement)
+        return db_advertisement
+    return utils.credentials_exception
 
 
 async def get(db: Session, advertisement_id: str):
