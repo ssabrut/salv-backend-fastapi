@@ -1,5 +1,5 @@
 from db.schemas import advertisement as AdvertisementSchema
-from fastapi import Depends, APIRouter
+from fastapi import Depends, APIRouter, Request
 from api.endpoint import get_db
 from sqlalchemy.orm import Session
 from fastapi.encoders import jsonable_encoder
@@ -9,9 +9,12 @@ router = APIRouter()
 
 
 @router.get("/advertisements/user/{user_id}")
-async def all_advertisement(user_id: str, db: Session = Depends(get_db)):
+async def all_advertisement(
+    user_id: str, request: Request, db: Session = Depends(get_db)
+):
     try:
-        data = await AdvertisementCrud.index(db=db, user_id=user_id)
+        token = request.headers["authorization"].split()[-1]
+        data = await AdvertisementCrud.index(db=db, user_id=user_id, token=token)
 
         if data:
             return jsonable_encoder(

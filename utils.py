@@ -6,7 +6,6 @@ from decouple import config
 from jose import JWTError, jwt
 from typing import Annotated
 from fastapi import Depends, HTTPException, status
-from db.models import user as UserModel
 from sqlalchemy.orm import Session
 from api.crud import user as UserCrud
 
@@ -24,7 +23,6 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     username: str | None = None
-    password: str | None = None
 
 
 def verify_password(plain_password, hashed_password):
