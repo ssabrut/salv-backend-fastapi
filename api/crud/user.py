@@ -49,6 +49,6 @@ async def authenticate(db: Session, username: str, password: str = ""):
 
     if not user:
         return False
-    if not verify_password(password, user.password) and password is not "":
+    if not verify_password(password, user.password) and password != "":
         return False
     return user
