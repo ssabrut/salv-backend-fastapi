@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from passlib.context import CryptContext
 from pydantic import BaseModel
 from fastapi.security import OAuth2PasswordBearer
-from decouple import config
+import os
 from jose import JWTError, jwt
 from typing import Annotated
 from fastapi import Depends, HTTPException, status
@@ -17,7 +17,7 @@ credentials_exception = HTTPException(
     headers={"WWW-Authenticate": "Bearer"},
 )
 
-SECRET_KEY = config("JWT_SECRET_KEY")
+SECRET_KEY = os.environ.get("JWT_SECRET_KEY")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 

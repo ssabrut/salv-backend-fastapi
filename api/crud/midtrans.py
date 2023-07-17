@@ -1,15 +1,15 @@
 from sqlalchemy.orm import Session
 from db.models import user as UserModel
 import uuid
-from decouple import config
+import os
 import midtransclient
 from api.crud import invoice as InvoiceCrud
 
 
 core_api = midtransclient.CoreApi(
     is_production=False,
-    server_key=config("SERVER_KEY"),
-    client_key=config("CLIENT_KEY"),
+    server_key=os.environ.get("SERVER_KEY"),
+    client_key=os.environ.get("CLIENT_KEY"),
 )
 
 
