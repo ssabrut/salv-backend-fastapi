@@ -9,7 +9,9 @@ router = APIRouter()
 
 
 @router.get("/transactions/user/{user_id}")
-async def all_transaction(user_id: str, request: Request, db: Session = Depends(get_db)):
+async def all_transaction(
+    user_id: str, request: Request, db: Session = Depends(get_db)
+):
     try:
         token = request.headers["authorization"].split()[-1]
         data = await TransactionCrud.index(db=db, user_id=user_id, token=token)
@@ -33,10 +35,13 @@ async def all_transaction(user_id: str, request: Request, db: Session = Depends(
     "/transactions/create", response_model=TransactionSchema.TransactionResponse
 )
 async def create_transaction(
-    transaction: TransactionSchema.TransactionBase, db: Session = Depends(get_db)
+    transaction: TransactionSchema.TransactionBase,
+    request: Request,
+    db: Session = Depends(get_db),
 ):
     try:
-        data = await TransactionCrud.create(db=db, transaction=transaction)
+        token = request.headers["authorization"].split()[-1]
+        data = await TransactionCrud.create(db=db, transaction=transaction, token=token)
 
         if data:
             return jsonable_encoder(
