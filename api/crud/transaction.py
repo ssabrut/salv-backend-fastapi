@@ -45,7 +45,9 @@ async def index(db: Session, user_id: str, token: str):
     return utils.credentials_exception
 
 
-async def create(db: Session, transaction: TransactionSchema.TransactionBase):
+async def create(
+    db: Session, transaction: TransactionSchema.TransactionBase, token: str
+):
     _uuid = str(uuid.uuid4())
     advertisement = (
         db.query(AdvertisementModel.Advertisement)
@@ -53,32 +55,39 @@ async def create(db: Session, transaction: TransactionSchema.TransactionBase):
         .first()
     )
 
-    if advertisement.ongoing_weight == advertisement.requested_weight:
-        advertisement.status = "finished"
-        return "advertisement has reached target"
+    user = await utils.get_current_user(
+        token=token,
+        db=db,
+    )
 
-    if (
-        advertisement.ongoing_weight + transaction.weight
-        <= advertisement.requested_weight
-    ):
-        data = {
-            "id": _uuid,
-            "user_id": transaction.user_id,
-            "advertisement_id": transaction.advertisement_id,
-            "retrieval_system": transaction.retrieval_system,
-            "weight": transaction.weight,
-            "location": transaction.location,
-            "image": transaction.image,
-            "total_price": transaction.weight * advertisement.price,
-        }
+    if user:
+        if advertisement.ongoing_weight == advertisement.requested_weight:
+            advertisement.status = "finished"
+            return "advertisement has reached target"
 
-        db_transaction = TransactionModel.Transaction(**data)
-        advertisement.ongoing_weight += transaction.weight
-        db.add(db_transaction)
-        db.commit()
-        db.refresh(db_transaction)
-        return db_transaction
-    return "weight exceed the target"
+        if (
+            advertisement.ongoing_weight + transaction.weight
+            <= advertisement.requested_weight
+        ):
+            data = {
+                "id": _uuid,
+                "user_id": transaction.user_id,
+                "advertisement_id": transaction.advertisement_id,
+                "retrieval_system": transaction.retrieval_system,
+                "weight": transaction.weight,
+                "location": transaction.location,
+                "image": transaction.image,
+                "total_price": transaction.weight * advertisement.price,
+            }
+
+            db_transaction = TransactionModel.Transaction(**data)
+            advertisement.ongoing_weight += transaction.weight
+            db.add(db_transaction)
+            db.commit()
+            db.refresh(db_transaction)
+            return db_transaction
+        return "weight exceed the target"
+    return utils.credentials_exception
 
 
 async def top_up(db: Session, user_id: str):
