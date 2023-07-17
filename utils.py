@@ -8,6 +8,8 @@ from typing import Annotated
 from fastapi import Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from api.crud import user as UserCrud
+from dotenv import load_dotenv
+load_dotenv()
 
 password_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
@@ -17,7 +19,7 @@ credentials_exception = HTTPException(
     headers={"WWW-Authenticate": "Bearer"},
 )
 
-SECRET_KEY = os.environ.get("JWT_SECRET_KEY")
+SECRET_KEY = os.getenv("JWT_SECRET_KEY")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 

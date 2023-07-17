@@ -20,8 +20,3 @@ app.include_router(category_router)
 app.include_router(advertisement_router)
 app.include_router(transaction_router)
 app.include_router(midtrans_router)
-
-if __name__ == "__main__":
-    import uvicorn
-
-    uvicorn.run(app, host="0.0.0.0", port=8000)
