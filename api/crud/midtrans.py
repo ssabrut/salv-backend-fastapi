@@ -4,12 +4,14 @@ import uuid
 import os
 import midtransclient
 from api.crud import invoice as InvoiceCrud
+from dotenv import load_dotenv
+load_dotenv()
 
 
 core_api = midtransclient.CoreApi(
     is_production=False,
-    server_key=os.environ.get("SERVER_KEY"),
-    client_key=os.environ.get("CLIENT_KEY"),
+    server_key=os.getenv("SERVER_KEY"),
+    client_key=os.getenv("CLIENT_KEY"),
 )
 
 
