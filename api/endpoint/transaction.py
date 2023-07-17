@@ -59,3 +59,31 @@ async def create_transaction(
         )
     except Exception as e:
         return jsonable_encoder({"status_code": 500, "message": str(e)})
+
+
+@router.get("/transactions/{transaction_id}")
+async def get_transction(
+    transaction_id: str, request: Request, db: Session = Depends(get_db)
+):
+    try:
+        token = request.headers["authorization"].split()[-1]
+        data = await TransactionCrud.get(
+            db=db, transaction_id=transaction_id, token=token
+        )
+
+        if data:
+            return jsonable_encoder(
+                {
+                    "status_code": 200,
+                    "message": "success getting transaction",
+                    "data": data,
+                }
+            )
+        return jsonable_encoder(
+            {
+                "status_code": 400,
+                "message": "failed getting transaction",
+            }
+        )
+    except Exception as e:
+        return jsonable_encoder({"status_code": 500, "message": str(e)})

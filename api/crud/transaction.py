@@ -3,6 +3,7 @@ from db.models import transaction as TransactionModel
 from db.schemas import transaction as TransactionSchema
 from db.models import advertisement as AdvertisementModel
 from db.models import user as UserModel
+from db.models import food_waste_category as CategoryModel
 import uuid
 import utils
 
@@ -87,6 +88,48 @@ async def create(
             db.refresh(db_transaction)
             return db_transaction
         return "weight exceed the target"
+    return utils.credentials_exception
+
+
+async def get(db: Session, transaction_id: str, token: str):
+    transaction = (
+        db.query(TransactionModel.Transaction)
+        .join(
+            AdvertisementModel.Advertisement,
+            TransactionModel.Transaction.advertisement_id
+            == AdvertisementModel.Advertisement.id,
+        )
+        .join(
+            CategoryModel.FoodWasteCategory,
+            AdvertisementModel.Advertisement.food_waste_category_id
+            == CategoryModel.FoodWasteCategory.id,
+        )
+        .filter(TransactionModel.Transaction.id == transaction_id)
+        .first()
+    )
+
+    user = await utils.get_current_user(
+        token=token,
+        db=db,
+    )
+
+    if user:
+        data = {
+            "id": transaction.id,
+            "title": transaction.advertisement.title,
+            "category": transaction.advertisement.food_waste_category.name,
+            "additional_information": transaction.advertisement.additional_information,
+            "minimum_weight": transaction.advertisement.minimum_weight,
+            "maximum_weight": transaction.advertisement.maximum_weight,
+            "price": transaction.advertisement.price,
+            "weight": transaction.weight,
+            "location": transaction.location,
+            "image": transaction.image,
+            "retrieval_system": transaction.retrieval_system,
+            "total_price": transaction.total_price,
+            "status": transaction.status,
+        }
+        return data
     return utils.credentials_exception
 
 
