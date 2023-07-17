@@ -3,9 +3,10 @@ from db.models import transaction as TransactionModel
 from db.schemas import transaction as TransactionSchema
 from db.models import advertisement as AdvertisementModel
 import uuid
+import utils
 
 
-async def index(db: Session, user_id: str):
+async def index(db: Session, user_id: str, token: str):
     transactions = (
         db.query(TransactionModel.Transaction)
         .join(
@@ -15,6 +16,11 @@ async def index(db: Session, user_id: str):
         )
         .filter(TransactionModel.Transaction.user_id == user_id)
         .all()
+    )
+
+    user = await utils.get_current_user(
+        token=token,
+        db=db,
     )
 
     # for i in range(len(transactions)):
