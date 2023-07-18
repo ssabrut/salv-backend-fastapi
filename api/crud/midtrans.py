@@ -17,7 +17,7 @@ core_api = midtransclient.CoreApi(
 )
 
 
-async def top_up(user_id: str, amount: int, db: Session, token: str):
+async def top_up(amount: int, db: Session, token: str):
     _uuid = "top-up-" + str(uuid.uuid4())
     user = user = await utils.get_current_user(
         token=token,
@@ -41,8 +41,8 @@ async def top_up(user_id: str, amount: int, db: Session, token: str):
 
         charge_response = core_api.charge(param)
         if charge_response:
-            await InvoiceCrud.create_invoice(
-                user_id=user.id, order_id=_uuid, amount=amount, db=db
-            )
+            # await InvoiceCrud.create_invoice(
+            #     user_id=user.id, order_id=_uuid, amount=amount, db=db
+            # )
             return charge_response
     return utils.credentials_exception
