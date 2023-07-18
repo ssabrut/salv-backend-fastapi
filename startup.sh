@@ -1,1 +1,0 @@
-gunicorn --workers=4 -k uvicorn.workers.UvicornWorker app:app

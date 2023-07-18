@@ -5,6 +5,8 @@ import os
 import midtransclient
 from api.crud import invoice as InvoiceCrud
 from dotenv import load_dotenv
+import utils
+
 load_dotenv()
 
 
@@ -15,9 +17,12 @@ core_api = midtransclient.CoreApi(
 )
 
 
-async def top_up(user_id: str, amount: int, db: Session):
+async def top_up(user_id: str, amount: int, db: Session, token: str):
     _uuid = "top-up-" + str(uuid.uuid4())
-    user = db.query(UserModel.User).filter(UserModel.User.id == user_id).first()
+    user = user = await utils.get_current_user(
+        token=token,
+        db=db,
+    )
 
     if user:
         param = {
@@ -37,7 +42,7 @@ async def top_up(user_id: str, amount: int, db: Session):
         charge_response = core_api.charge(param)
         if charge_response:
             await InvoiceCrud.create_invoice(
-                user_id=user_id, order_id=_uuid, amount=amount, db=db
+                user_id=user.id, order_id=_uuid, amount=amount, db=db
             )
             return charge_response
-    return "user not found"
+    return utils.credentials_exception
