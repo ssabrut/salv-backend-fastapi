@@ -4,6 +4,7 @@ from api.endpoint import get_db
 from sqlalchemy.orm import Session
 from fastapi.encoders import jsonable_encoder
 from api.crud import advertisement as AdvertisementCrud
+import utils
 
 router = APIRouter()
 
@@ -13,7 +14,7 @@ async def all_advertisement(
     user_id: str, request: Request, db: Session = Depends(get_db)
 ):
     try:
-        token = request.headers["authorization"].split()[-1]
+        token = utils.get_token(request)
         data = await AdvertisementCrud.index(db=db, user_id=user_id, token=token)
 
         if data:
@@ -40,7 +41,7 @@ async def create_advertisement(
     db: Session = Depends(get_db),
 ):
     try:
-        token = request.headers["authorization"].split()[-1]
+        token = utils.get_token(request)
         data = await AdvertisementCrud.create(
             db=db, advertisement=advertisement, token=token
         )
@@ -68,7 +69,7 @@ async def get_advertisement(
     advertisement_id: str, request: Request, db: Session = Depends(get_db)
 ):
     try:
-        token = request.headers["authorization"].split()[-1]
+        token = utils.get_token(request)
         data = await AdvertisementCrud.get(
             db=db, advertisement_id=advertisement_id, token=token
         )
@@ -96,7 +97,7 @@ async def search_advertisement(
     query: str, request: Request, db: Session = Depends(get_db)
 ):
     try:
-        token = request.headers["authorization"].split()[-1]
+        token = utils.get_token(request)
         data = await AdvertisementCrud.search(db=db, query=query, token=token)
 
         if data:

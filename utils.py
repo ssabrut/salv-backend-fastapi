@@ -5,10 +5,11 @@ from fastapi.security import OAuth2PasswordBearer
 import os
 from jose import JWTError, jwt
 from typing import Annotated
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, status, Request
 from sqlalchemy.orm import Session
 from api.crud import user as UserCrud
 from dotenv import load_dotenv
+
 load_dotenv()
 
 password_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -66,3 +67,7 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Se
         if user is None:
             raise credentials_exception
         return user
+
+
+def get_token(request: Request):
+    return request.headers["authorization"].split()[-1]

@@ -133,5 +133,20 @@ async def get(db: Session, transaction_id: str, token: str):
     return utils.credentials_exception
 
 
-async def top_up(db: Session, user_id: str):
-    pass
+async def update(db: Session, transaction_id: str, status: int, token: str):
+    transaction = (
+        db.query(TransactionModel.Transaction)
+        .filter(TransactionModel.Transaction.id == transaction_id)
+        .first()
+    )
+
+    user = await utils.get_current_user(
+        token=token,
+        db=db,
+    )
+
+    if user:
+        transaction.status = status
+        db.commit()
+        return transaction
+    return utils.credentials_exception
