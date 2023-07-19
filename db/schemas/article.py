@@ -4,7 +4,6 @@ from db.schemas import Response
 
 
 class ArticleBase(BaseModel):
-    user_id: str
     food_waste_category_id: str
     title: str
     content: str
@@ -12,6 +11,7 @@ class ArticleBase(BaseModel):
 
 class Article(ArticleBase):
     id: str
+    user_id: str
     created_at: datetime
     updated_at: datetime | None = None
 
