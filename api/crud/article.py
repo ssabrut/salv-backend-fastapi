@@ -16,6 +16,7 @@ async def index(db: Session, token: str):
         )
         .all()
     )
+
     user = await utils.get_current_user(
         token=token,
         db=db,
