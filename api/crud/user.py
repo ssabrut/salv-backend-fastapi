@@ -47,7 +47,7 @@ async def register(db: Session, user: UserSchema.UserCreate):
     db.add(db_user)
     db.commit()
 
-    auth.create_user(email=user.email, password=user.password)
+    auth.create_user(email=user.email, password=user.password, uid=_uuid)
     db.refresh(db_user)
     return db_user
 
