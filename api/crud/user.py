@@ -3,6 +3,12 @@ from db.schemas import user as UserSchema
 from db.models import user as UserModel
 import uuid
 from utils import get_password_hash, verify_password
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import auth
+
+cred = credentials.Certificate("salv-4c518-firebase-adminsdk-h5rg2-6b49c4820c.json")
+firebase_admin.initialize_app(cred)
 
 
 async def register(db: Session, user: UserSchema.UserCreate):
@@ -40,6 +46,8 @@ async def register(db: Session, user: UserSchema.UserCreate):
     db_user = UserModel.User(**data)
     db.add(db_user)
     db.commit()
+
+    auth.create_user(email=user.email, password=user.password)
     db.refresh(db_user)
     return db_user
 
