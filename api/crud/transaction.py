@@ -8,7 +8,12 @@ import uuid
 import utils
 
 
-async def index(db: Session, user_id: str, token: str):
+async def index(db: Session, token: str):
+    user = await utils.get_current_user(
+        token=token,
+        db=db,
+    )
+
     transactions = (
         db.query(TransactionModel.Transaction)
         .join(
@@ -20,15 +25,11 @@ async def index(db: Session, user_id: str, token: str):
             UserModel.User,
             AdvertisementModel.Advertisement.user_id == UserModel.User.id,
         )
-        .filter(TransactionModel.Transaction.user_id == user_id)
+        .filter(TransactionModel.Transaction.user_id == user.id)
         .all()
     )
 
     transactions.sort(key=lambda t: (t.status != 0 and t.status != 2, t.status))
-    user = await utils.get_current_user(
-        token=token,
-        db=db,
-    )
 
     if user:
         for i in range(len(transactions)):
@@ -72,7 +73,7 @@ async def create(
         ):
             data = {
                 "id": _uuid,
-                "user_id": transaction.user_id,
+                "user_id": user.id,
                 "advertisement_id": transaction.advertisement_id,
                 "retrieval_system": transaction.retrieval_system,
                 "weight": transaction.weight,

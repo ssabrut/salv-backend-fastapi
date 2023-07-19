@@ -9,13 +9,11 @@ import utils
 router = APIRouter()
 
 
-@router.get("/transactions/user/{user_id}")
-async def all_transaction(
-    user_id: str, request: Request, db: Session = Depends(get_db)
-):
+@router.get("/transactions/user")
+async def all_transaction(request: Request, db: Session = Depends(get_db)):
     try:
         token = utils.get_token(request)
-        data = await TransactionCrud.index(db=db, user_id=user_id, token=token)
+        data = await TransactionCrud.index(db=db, token=token)
 
         if data:
             return jsonable_encoder(

@@ -4,7 +4,6 @@ from db.schemas import Response
 
 
 class TransactionBase(BaseModel):
-    user_id: str
     advertisement_id: str
     retrieval_system: int
     weight: int
@@ -14,6 +13,7 @@ class TransactionBase(BaseModel):
 
 class Transaction(TransactionBase):
     id: str
+    user_id: str
     total_price: int
     created_at: datetime
     updated_at: datetime | None = None
