@@ -9,13 +9,11 @@ import utils
 router = APIRouter()
 
 
-@router.get("/advertisements/user/{user_id}")
-async def all_advertisement(
-    user_id: str, request: Request, db: Session = Depends(get_db)
-):
+@router.get("/advertisements/user")
+async def all_advertisement(request: Request, db: Session = Depends(get_db)):
     try:
         token = utils.get_token(request)
-        data = await AdvertisementCrud.index(db=db, user_id=user_id, token=token)
+        data = await AdvertisementCrud.index(db=db, token=token)
 
         if data:
             return jsonable_encoder(

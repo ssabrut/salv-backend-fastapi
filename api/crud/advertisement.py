@@ -6,7 +6,7 @@ import utils
 from sqlalchemy import func
 
 
-async def index(db: Session, user_id: str, token: str):
+async def index(db: Session, token: str):
     advertisements = db.query(AdvertisementModel.Advertisement).all()
     user = await utils.get_current_user(
         token=token,
@@ -17,7 +17,7 @@ async def index(db: Session, user_id: str, token: str):
         if user.type == 2:
             advertisements = (
                 db.query(AdvertisementModel.Advertisement)
-                .filter(AdvertisementModel.Advertisement.user_id == user_id)
+                .filter(AdvertisementModel.Advertisement.user_id == user.id)
                 .all()
             )
 
@@ -49,7 +49,7 @@ async def create(
         data = {
             "id": _uuid,
             "food_waste_category_id": advertisement.food_waste_category_id,
-            "user_id": advertisement.user_id,
+            "user_id": user.id,
             "title": advertisement.title,
             "location": advertisement.location,
             "additional_information": advertisement.additional_information

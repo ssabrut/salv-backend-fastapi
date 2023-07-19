@@ -5,7 +5,6 @@ from db.schemas import Response
 
 class AdvertisementBase(BaseModel):
     food_waste_category_id: str
-    user_id: str
     title: str
     location: str
     additional_information: str | None = ""
@@ -17,6 +16,7 @@ class AdvertisementBase(BaseModel):
 
 class Advertisement(AdvertisementBase):
     id: str
+    user_id: str
     created_at: datetime
     updated_at: datetime | None = None
 
