@@ -11,7 +11,7 @@ router = APIRouter()
 
 
 # type 3 = seller (mahasiswa), type 2 = buyer (pabrik)
-@router.post("/register", response_model=UserSchema.UserResponse)
+@router.post("/register")
 async def create_user(user: UserSchema.UserCreate, db: Session = Depends(get_db)):
     try:
         data = await UserCrud.register(db=db, user=user)
@@ -21,12 +21,11 @@ async def create_user(user: UserSchema.UserCreate, db: Session = Depends(get_db)
         )
 
         if type(data) is not str and data:
+            data["token"] = access_token
             return jsonable_encoder(
                 {
                     "status_code": 200,
                     "message": "register success",
-                    "token": access_token,
-                    "token_type": "bearer",
                     "data": data,
                 }
             )
@@ -37,7 +36,7 @@ async def create_user(user: UserSchema.UserCreate, db: Session = Depends(get_db)
         return jsonable_encoder({"status_code": 500, "message": str(e)})
 
 
-@router.post("/login", response_model=UserSchema.UserResponse)
+@router.post("/login")
 async def read_user(user: UserSchema.UserLogin, db: Session = Depends(get_db)):
     try:
         data = await UserCrud.authenticate(
@@ -50,12 +49,11 @@ async def read_user(user: UserSchema.UserLogin, db: Session = Depends(get_db)):
         )
 
         if data:
+            data["token"] = access_token
             return jsonable_encoder(
                 {
                     "status_code": 200,
                     "message": "authenticated",
-                    "token": access_token,
-                    "token_type": "bearer",
                     "data": data,
                 }
             )
