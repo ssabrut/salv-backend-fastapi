@@ -21,7 +21,7 @@ async def create_user(user: UserSchema.UserCreate, db: Session = Depends(get_db)
         )
 
         if type(data) is not str and data:
-            data = dict(data)
+            data = data.__dict__
             data["token"] = access_token
             return jsonable_encoder(
                 {
@@ -50,7 +50,7 @@ async def read_user(user: UserSchema.UserLogin, db: Session = Depends(get_db)):
         )
 
         if data:
-            data = dict(data)
+            data = data.__dict__
             data["token"] = access_token
             return jsonable_encoder(
                 {
