@@ -30,9 +30,7 @@ async def all_transaction(request: Request, db: Session = Depends(get_db)):
         return jsonable_encoder({"status_code": 500, "message": str(e)})
 
 
-@router.post(
-    "/transactions/create", response_model=TransactionSchema.TransactionResponse
-)
+@router.post("/transactions/create")
 async def create_transaction(
     transaction: TransactionSchema.TransactionBase,
     request: Request,
@@ -47,7 +45,6 @@ async def create_transaction(
                 {
                     "status_code": 200,
                     "message": "success to create transaction",
-                    "data": data,
                 }
             )
         return jsonable_encoder(
@@ -103,7 +100,6 @@ async def update_transaction(
                 {
                     "status_code": 200,
                     "message": "success update transaction",
-                    "data": data,
                 }
             )
         return jsonable_encoder(

@@ -34,15 +34,13 @@ async def index(db: Session, token: str):
     if user:
         for i in range(len(transactions)):
             transactions[i] = {
-                "id": transactions[i].id,
-                "title": transactions[i].advertisement.title,
-                "user": transactions[i].user.name,
-                "status": transactions[i].status,
-                "total_price": transactions[i].total_price,
                 "created_at": transactions[i].created_at,
-                "image": transactions[i].image,
+                "id": transactions[i].id,
+                "user": transactions[i].advertisement.user.name,
+                "status": transactions[i].status,
+                "title": transactions[i].advertisement.title,
+                "weight": transactions[i].weight,
             }
-
         return transactions
     return utils.credentials_exception
 
@@ -75,7 +73,6 @@ async def create(
                 "id": _uuid,
                 "user_id": user.id,
                 "advertisement_id": transaction.advertisement_id,
-                "retrieval_system": transaction.retrieval_system,
                 "weight": transaction.weight,
                 "location": transaction.location,
                 "image": transaction.image,
@@ -116,19 +113,19 @@ async def get(db: Session, transaction_id: str, token: str):
 
     if user:
         data = {
-            "id": transaction.id,
-            "title": transaction.advertisement.title,
-            "category": transaction.advertisement.food_waste_category.name,
             "additional_information": transaction.advertisement.additional_information,
-            "minimum_weight": transaction.advertisement.minimum_weight,
-            "maximum_weight": transaction.advertisement.maximum_weight,
-            "price": transaction.advertisement.price,
-            "weight": transaction.weight,
+            "category": transaction.advertisement.food_waste_category.name,
+            "id": transaction.id,
             "location": transaction.location,
-            "image": transaction.image,
-            "retrieval_system": transaction.retrieval_system,
-            "total_price": transaction.total_price,
+            "maximum_weight": transaction.advertisement.maximum_weight,
+            "minimum_weight": transaction.advertisement.minimum_weight,
+            "price": transaction.advertisement.price,
+            "retrieval_system": transaction.advertisement.retrieval_system,
             "status": transaction.status,
+            "image": transaction.image,
+            "title": transaction.advertisement.title,
+            "total_price": transaction.total_price,
+            "weight": transaction.weight,
         }
         return data
     return utils.credentials_exception

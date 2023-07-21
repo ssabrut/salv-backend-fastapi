@@ -10,7 +10,6 @@ class Transaction(Base):
     user_id = Column(String(50), ForeignKey("users.id"))
     advertisement_id = Column(String(50), ForeignKey("advertisements.id"))
     status = Column(Integer, nullable=True, default=0)
-    retrieval_system = Column(Integer, nullable=False, index=True)
     weight = Column(Integer, nullable=False, index=True)
     location = Column(Text, nullable=False, index=True)
     image = Column(String(255), nullable=False, index=True)
