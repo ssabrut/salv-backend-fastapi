@@ -17,7 +17,8 @@ depends_on = None
 
 
 def upgrade() -> None:
-    op.drop_column("advertisements", "retrieval_system")
+    pass
+    # op.drop_column("advertisements", "retrieval_system")
 
 
 def downgrade() -> None:

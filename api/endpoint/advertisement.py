@@ -30,9 +30,7 @@ async def all_advertisement(request: Request, db: Session = Depends(get_db)):
         return jsonable_encoder({"status_code": 500, "message": str(e)})
 
 
-@router.post(
-    "/advertisements/create", response_model=AdvertisementSchema.AdvertisementResponse
-)
+@router.post("/advertisements/create")
 async def create_advertisement(
     advertisement: AdvertisementSchema.AdvertisementBase,
     request: Request,
@@ -49,7 +47,6 @@ async def create_advertisement(
                 {
                     "status_code": 200,
                     "message": "success to create advertisement",
-                    "data": data,
                 }
             )
         return jsonable_encoder(
