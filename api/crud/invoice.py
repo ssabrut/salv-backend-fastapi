@@ -10,4 +10,3 @@ async def create(user_id: str, order_id: str, amount: int, db: Session):
     db.add(db_invoice)
     db.commit()
     db.refresh(db_invoice)
-    return db_invoice

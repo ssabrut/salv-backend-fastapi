@@ -7,7 +7,6 @@ class InvoiceBase(BaseModel):
     user_id: str
     order_id: str
     amount: int
-    status: str
 
 
 class Invoice(InvoiceBase):
