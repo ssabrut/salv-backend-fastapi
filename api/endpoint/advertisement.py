@@ -9,8 +9,28 @@ import utils
 router = APIRouter()
 
 
-@router.get("/advertisements/user")
-async def all_advertisement(request: Request, db: Session = Depends(get_db)):
+@router.get("/seller-advertisement/index")
+async def seller_advertisement(request: Request, db: Session = Depends(get_db)):
+    try:
+        token = utils.get_token(request)
+        data = await AdvertisementCrud.index(db=db, token=token)
+
+        if data:
+            return jsonable_encoder(
+                {
+                    "status_code": 200,
+                    "message": "success get all advertisement",
+                    "data": data,
+                }
+            )
+        return jsonable_encoder(
+            {"status_code": 400, "message": "failed get all advertisement"}
+        )
+    except Exception as e:
+        return jsonable_encoder({"status_code": 500, "message": str(e)})
+    
+@router.get("/buyer-advertisement/index")
+async def buyer_advertisement(request: Request, db: Session = Depends(get_db)):
     try:
         token = utils.get_token(request)
         data = await AdvertisementCrud.index(db=db, token=token)
@@ -30,7 +50,7 @@ async def all_advertisement(request: Request, db: Session = Depends(get_db)):
         return jsonable_encoder({"status_code": 500, "message": str(e)})
 
 
-@router.post("/advertisements/create")
+@router.post("/buyer-advertisement")
 async def create_advertisement(
     advertisement: AdvertisementSchema.AdvertisementBase,
     request: Request,
@@ -59,8 +79,35 @@ async def create_advertisement(
         return jsonable_encoder({"status_code": 500, "message": str(e)})
 
 
-@router.get("/advertisements/{advertisement_id}")
-async def get_advertisement(
+@router.get("/seller-advertisement/{advertisement_id}")
+async def seller_advertisement(
+    advertisement_id: str, request: Request, db: Session = Depends(get_db)
+):
+    try:
+        token = utils.get_token(request)
+        data = await AdvertisementCrud.get(
+            db=db, advertisement_id=advertisement_id, token=token
+        )
+
+        if data:
+            return jsonable_encoder(
+                {
+                    "status_code": 200,
+                    "message": "advertisement found",
+                    "data": data,
+                }
+            )
+        return jsonable_encoder(
+            {
+                "status_code": 400,
+                "message": "advertisement not found",
+            }
+        )
+    except Exception as e:
+        return jsonable_encoder({"status_code": 500, "message": str(e)})
+    
+@router.get("/buyer-advertisement/{advertisement_id}")
+async def buyer_advertisement(
     advertisement_id: str, request: Request, db: Session = Depends(get_db)
 ):
     try:
@@ -87,7 +134,7 @@ async def get_advertisement(
         return jsonable_encoder({"status_code": 500, "message": str(e)})
 
 
-@router.get("/advertisements/search/{query}")
+@router.get("/seller-advertisement/search/{query}")
 async def search_advertisement(
     query: str, request: Request, db: Session = Depends(get_db)
 ):

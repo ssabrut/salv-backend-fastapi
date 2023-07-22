@@ -9,8 +9,10 @@ import utils
 router = APIRouter()
 
 
-@router.get("/transactions/user")
-async def all_transaction(request: Request, db: Session = Depends(get_db)):
+@router.get("/seller-transaction/index/{user_Id}")
+async def seller_transaction(
+    user_id: str, request: Request, db: Session = Depends(get_db)
+):
     try:
         token = utils.get_token(request)
         data = await TransactionCrud.index(db=db, token=token)
@@ -30,7 +32,30 @@ async def all_transaction(request: Request, db: Session = Depends(get_db)):
         return jsonable_encoder({"status_code": 500, "message": str(e)})
 
 
-@router.post("/transactions/create")
+@router.get("/buyer-transaction/index/{user_id}")
+async def buyer_transaction(
+    user_id: str, request: Request, db: Session = Depends(get_db)
+):
+    try:
+        token = utils.get_token(request)
+        data = await TransactionCrud.index(db=db, token=token)
+
+        if data:
+            return jsonable_encoder(
+                {
+                    "status_code": 200,
+                    "message": "success get all transaction",
+                    "data": data,
+                }
+            )
+        return jsonable_encoder(
+            {"status_code": 400, "message": "failed get all transaction"}
+        )
+    except Exception as e:
+        return jsonable_encoder({"status_code": 500, "message": str(e)})
+
+
+@router.post("/seller-transaction")
 async def create_transaction(
     transaction: TransactionSchema.TransactionBase,
     request: Request,
@@ -57,8 +82,35 @@ async def create_transaction(
         return jsonable_encoder({"status_code": 500, "message": str(e)})
 
 
-@router.get("/transactions/{transaction_id}")
-async def get_transction(
+@router.get("/seller-transaction/{transaction_id}")
+async def seller_transction(
+    transaction_id: str, request: Request, db: Session = Depends(get_db)
+):
+    try:
+        token = utils.get_token(request)
+        data = await TransactionCrud.get(
+            db=db, transaction_id=transaction_id, token=token
+        )
+
+        if data:
+            return jsonable_encoder(
+                {
+                    "status_code": 200,
+                    "message": "success getting transaction",
+                    "data": data,
+                }
+            )
+        return jsonable_encoder(
+            {
+                "status_code": 400,
+                "message": "failed getting transaction",
+            }
+        )
+    except Exception as e:
+        return jsonable_encoder({"status_code": 500, "message": str(e)})
+    
+@router.get("/buyer-transaction/{transaction_id}")
+async def buyer_transction(
     transaction_id: str, request: Request, db: Session = Depends(get_db)
 ):
     try:
@@ -85,7 +137,7 @@ async def get_transction(
         return jsonable_encoder({"status_code": 500, "message": str(e)})
 
 
-@router.get("/transactions/update/{transaction_id}/{status}")
+@router.get("/buyer-transaction/{transaction_id}/{status}")
 async def update_transaction(
     transaction_id: str, status: int, request: Request, db: Session = Depends(get_db)
 ):
