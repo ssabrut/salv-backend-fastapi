@@ -114,6 +114,7 @@ async def get(db: Session, advertisement_id: str, token: str):
             "price": advertisement.price,
             "retrieval_system": advertisement.retrieval_system,
             "title": advertisement.title,
+            "status": advertisement.status,
         }
 
         if not advertisement:
