@@ -28,9 +28,12 @@ async def seller_advertisement(request: Request, db: Session = Depends(get_db)):
         )
     except Exception as e:
         return jsonable_encoder({"status_code": 500, "message": str(e)})
-    
-@router.get("/buyer-advertisement/index")
-async def buyer_advertisement(request: Request, db: Session = Depends(get_db)):
+
+
+@router.get("/buyer-advertisement/index/{user_id}")
+async def buyer_advertisement(
+    user_id: str, request: Request, db: Session = Depends(get_db)
+):
     try:
         token = utils.get_token(request)
         data = await AdvertisementCrud.index(db=db, token=token)
@@ -105,7 +108,8 @@ async def seller_advertisement(
         )
     except Exception as e:
         return jsonable_encoder({"status_code": 500, "message": str(e)})
-    
+
+
 @router.get("/buyer-advertisement/{advertisement_id}")
 async def buyer_advertisement(
     advertisement_id: str, request: Request, db: Session = Depends(get_db)
