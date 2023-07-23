@@ -10,7 +10,7 @@ class Advertisement(Base):
     food_waste_category_id = Column(String(50), ForeignKey("food_waste_categories.id"))
     user_id = Column(String(50), ForeignKey("users.id"))
     status = Column(String(50), nullable=False, default="ongoing")
-    title = Column(String(255), nullable=False)
+    name = Column(String(255), nullable=False)
     retrieval_system = Column(Integer, nullable=False)
     location = Column(Text, nullable=False)
     additional_information = Column(Text, nullable=True, default="")

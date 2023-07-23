@@ -37,7 +37,7 @@ async def index(db: Session, token: str):
                     "id": advertisements[i].id,
                     "ongoing_weight": advertisements[i].ongoing_weight,
                     "requested_weight": advertisements[i].requested_weight,
-                    "title": advertisements[i].title,
+                    "title": advertisements[i].name,
                 }
         else:
             for i in range(len(advertisements)):
@@ -47,7 +47,7 @@ async def index(db: Session, token: str):
                     "ongoing_weight": advertisements[i].ongoing_weight,
                     "price": advertisements[i].price,
                     "requested_weight": advertisements[i].requested_weight,
-                    "title": advertisements[i].title,
+                    "title": advertisements[i].name,
                     "end_date": advertisements[i].created_at + timedelta(days=5),
                 }
         return advertisements
@@ -68,7 +68,7 @@ async def create(
             "id": _uuid,
             "food_waste_category_id": advertisement.food_waste_category_id,
             "user_id": user.id,
-            "title": advertisement.title,
+            "title": advertisement.name,
             "retrieval_system": advertisement.retrieval_system,
             "location": advertisement.location,
             "additional_information": advertisement.additional_information
@@ -113,7 +113,7 @@ async def get(db: Session, advertisement_id: str, token: str):
             "ongoing_weight": advertisement.ongoing_weight,
             "price": advertisement.price,
             "retrieval_system": advertisement.retrieval_system,
-            "title": advertisement.title,
+            "title": advertisement.name,
             "status": advertisement.status,
         }
 
@@ -135,7 +135,7 @@ async def search(db: Session, query: str, token: str):
                 == CategoryModel.FoodWasteCategory.id,
             )
             .filter(
-                func.lower(AdvertisementModel.Advertisement.title).like(
+                func.lower(AdvertisementModel.Advertisement.name).like(
                     "%" + query.lower() + "%"
                 )
             )
@@ -149,7 +149,7 @@ async def search(db: Session, query: str, token: str):
                 "ongoing_weight": advertisements[i].ongoing_weight,
                 "price": advertisements[i].price,
                 "requested_weight": advertisements[i].requested_weight,
-                "title": advertisements[i].title,
+                "title": advertisements[i].name,
                 "end_date": advertisements[i].created_at + timedelta(days=5),
             }
         return advertisements
