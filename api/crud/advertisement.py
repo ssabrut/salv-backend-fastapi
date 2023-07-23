@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session, joinedload
 from db.models import advertisement as AdvertisementModel
 from db.schemas import advertisement as AdvertisementSchema
 from db.models import food_waste_category as CategoryModel
+from db.models import user as UserModel
 import uuid
 import utils
 from sqlalchemy import func
@@ -115,6 +116,8 @@ async def get(db: Session, advertisement_id: str, token: str):
             "retrieval_system": advertisement.retrieval_system,
             "title": advertisement.name,
             "status": advertisement.status,
+            "latitude": advertisement.user.latitude,
+            "longitude": advertisement.user.longitude,
         }
 
         if not advertisement:
