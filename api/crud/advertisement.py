@@ -68,7 +68,7 @@ async def create(
             "id": _uuid,
             "food_waste_category_id": advertisement.food_waste_category_id,
             "user_id": user.id,
-            "title": advertisement.name,
+            "name": advertisement.name,
             "retrieval_system": advertisement.retrieval_system,
             "location": advertisement.location,
             "additional_information": advertisement.additional_information
