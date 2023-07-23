@@ -157,3 +157,19 @@ async def search(db: Session, query: str, token: str):
             }
         return advertisements
     return utils.credentials_exception
+
+
+async def cancel(advertisement_id: str, db: Session, token: str):
+    advertisement = (
+        db.query(AdvertisementModel.Advertisement)
+        .filter(AdvertisementModel.Advertisement.id == advertisement_id)
+        .first()
+    )
+
+    user = await utils.get_current_user(token=token, db=db)
+
+    if user:
+        advertisement.status = "cancel"
+        db.commit()
+        return True
+    return False

@@ -162,3 +162,30 @@ async def search_advertisement(
         )
     except Exception as e:
         return jsonable_encoder({"status_code": 500, "message": str(e)})
+
+
+@router.get("/buyer-advertisement/cancel/{advertisement_id}")
+async def cancel_advertisement(
+    advertisement_id: str, request: Request, db: Session = Depends(get_db)
+):
+    try:
+        token = utils.get_token(request)
+        data = await AdvertisementCrud.cancel(
+            advertisement_id=advertisement_id, db=db, token=token
+        )
+
+        if data:
+            return jsonable_encoder(
+                {
+                    "status_code": 200,
+                    "message": "advertisements has been cancelled",
+                }
+            )
+        return jsonable_encoder(
+            {
+                "status_code": 400,
+                "message": "failed to cancel advertisement",
+            }
+        )
+    except Exception as e:
+        return jsonable_encoder({"status_code": 500, "message": str(e)})
