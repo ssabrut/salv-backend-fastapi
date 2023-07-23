@@ -192,10 +192,9 @@ async def cancel_advertisement(
 
 
 @router.get("/content-based/{categories}")
-async def content_based(
-    categories: list, request: Request, db: Session = Depends(get_db)
-):
+async def content_based(categories, request: Request, db: Session = Depends(get_db)):
     try:
+        categories = [word.strip("''") for word in categories.strip("][").split(", ")]
         token = utils.get_token(request)
         data = await AdvertisementCrud.content_based(
             categories=categories, db=db, token=token

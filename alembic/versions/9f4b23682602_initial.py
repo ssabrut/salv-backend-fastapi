@@ -55,7 +55,7 @@ def upgrade() -> None:
         Column("food_waste_category_id", String(50)),
         Column("user_id", String(50)),
         Column("status", String(20), nullable=False, default="ongoing", index=True),
-        Column("title", Text, nullable=False, index=True),
+        Column("name", Text, nullable=False, index=True),
         Column("retrieval_system", Integer, nullable=False, index=True),
         Column("location", Text, nullable=False, index=True),
         Column("additional_information", Text, nullable=True, default="", index=True),
