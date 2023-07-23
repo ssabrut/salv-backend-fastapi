@@ -36,9 +36,6 @@ async def read_category(db: Session = Depends(get_db)):
         data = await CategoryCrud.index(db)
 
         if data:
-            data = data.__dict__
-            data.pop("created_at")
-            data.pop("updated_at")
             return jsonable_encoder(
                 {
                     "status_code": 200,
