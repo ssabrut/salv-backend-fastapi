@@ -189,3 +189,31 @@ async def cancel_advertisement(
         )
     except Exception as e:
         return jsonable_encoder({"status_code": 500, "message": str(e)})
+
+
+@router.get("/content-based/{categories}")
+async def content_based(
+    categories: list, request: Request, db: Session = Depends(get_db)
+):
+    try:
+        token = utils.get_token(request)
+        data = await AdvertisementCrud.content_based(
+            categories=categories, db=db, token=token
+        )
+
+        if data:
+            return jsonable_encoder(
+                {
+                    "status_code": 200,
+                    "message": "success getting advertisement recommendation",
+                    "data": data,
+                }
+            )
+        return jsonable_encoder(
+            {
+                "status_code": 400,
+                "message": "failed getting advertisement recommendation",
+            }
+        )
+    except Exception as e:
+        return jsonable_encoder({"status_code": 500, "message": str(e)})

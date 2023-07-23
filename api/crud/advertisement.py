@@ -173,3 +173,40 @@ async def cancel(advertisement_id: str, db: Session, token: str):
         db.commit()
         return True
     return False
+
+
+async def content_based(categories: list, db: Session, token: str):
+    user = await utils.get_current_user(token=token, db=db)
+
+    if user:
+        data = []
+        for category in categories:
+            advertisements = (
+                db.query(AdvertisementModel.Advertisement)
+                .join(
+                    CategoryModel.FoodWasteCategory,
+                    AdvertisementModel.Advertisement.food_waste_category_id
+                    == CategoryModel.FoodWasteCategory.id,
+                )
+                .filter(
+                    func.lower(AdvertisementModel.Advertisement.name).like(
+                        "%" + category.lower() + "%"
+                    )
+                )
+                .all()
+            )
+
+            for advertisement in advertisements:
+                if advertisement.status == "ongoing":
+                    ads = {
+                        "id": advertisement.id,
+                        "title": advertisement.name,
+                        "price": advertisement.price,
+                        "category": advertisement.food_waste_category.name,
+                        "ongoing_weight": advertisement.ongoing_weight,
+                        "end_date": advertisement.created_at + timedelta(days=5),
+                        "requested_weight": advertisement.requested_weight,
+                    }
+                    data.append(ads)
+        return data
+    return utils.credentials_exception
