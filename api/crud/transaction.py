@@ -146,5 +146,24 @@ async def update(db: Session, transaction_id: str, status: int, token: str):
     if user:
         transaction.status = status
         db.commit()
+
+        if transaction.status == 3:
+            seller = (
+                db.query(UserModel.User)
+                .filter(UserModel.User.id == transaction.user_id)
+                .first()
+            )
+
+            buyer = (
+                db.query(UserModel.User)
+                .filter(UserModel.User.id == transaction.advertisement.user_id)
+                .first()
+            )
+
+            seller.point += transaction.total_price
+            db.commit()
+
+            buyer.point -= transaction.total_price
+            db.commit()
         return transaction
     return utils.credentials_exception

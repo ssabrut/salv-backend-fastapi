@@ -22,7 +22,7 @@ async def top_up(amount: int, db: Session, token: str):
         token=token,
         db=db,
     )
-    _uuid = "top-up-" + user.id
+    _uuid = "top-up-" + str(user.id)
 
     if user:
         param = {
