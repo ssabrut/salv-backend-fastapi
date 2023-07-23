@@ -22,7 +22,7 @@ async def top_up(amount: int, db: Session, token: str):
         token=token,
         db=db,
     )
-    _uuid = "top-up-" + str(user.id)
+    _uuid = "top-up-" + str(uuid.uuid4())
 
     if user:
         param = {
@@ -54,16 +54,15 @@ async def add_point(transaction_id: str, db: Session, token: str):
     transaction = core_api.transactions.status(transaction_id)
     amount = int(float(transaction["gross_amount"]))
     transaction_status = transaction["transaction_status"]
-    user_id = transaction_id[7:]
 
     if user:
         if transaction_status == "settlement":
-            print('a')
+            print("a")
             await InvoiceCrud.create(
-                user_id=user_id, order_id=transaction_id, amount=amount, db=db
+                user_id=user.id, order_id=transaction_id, amount=amount, db=db
             )
 
-            print('a')
+            print("a")
             user.point += amount
             db.commit()
             return True
