@@ -9,7 +9,7 @@ import utils
 router = APIRouter()
 
 
-@router.get("/seller-transaction/index/{user_Id}")
+@router.get("/seller-transaction/index/{user_id}")
 async def seller_transaction(
     user_id: str, request: Request, db: Session = Depends(get_db)
 ):

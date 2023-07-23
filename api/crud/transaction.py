@@ -39,7 +39,7 @@ async def index(db: Session, token: str):
                 "user": transactions[i].advertisement.user.name,
                 "status": transactions[i].status,
                 "title": transactions[i].advertisement.title,
-                "weight": transactions[i].weight,
+                "total_price": transactions[i].total_price,
             }
         return transactions
     return utils.credentials_exception
