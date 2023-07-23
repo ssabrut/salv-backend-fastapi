@@ -38,7 +38,7 @@ async def index(db: Session, token: str):
                 "id": transactions[i].id,
                 "user": transactions[i].advertisement.user.name,
                 "status": transactions[i].status,
-                "title": transactions[i].advertisement.title,
+                "title": transactions[i].advertisement.name,
                 "total_price": transactions[i].total_price,
             }
         return transactions
@@ -123,7 +123,7 @@ async def get(db: Session, transaction_id: str, token: str):
             "retrieval_system": transaction.advertisement.retrieval_system,
             "status": transaction.status,
             "image": transaction.image,
-            "title": transaction.advertisement.title,
+            "title": transaction.advertisement.name,
             "total_price": transaction.total_price,
             "weight": transaction.weight,
         }
