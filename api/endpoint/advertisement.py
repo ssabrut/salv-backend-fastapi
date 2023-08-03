@@ -14,6 +14,13 @@ async def seller_advertisement(request: Request, db: Session = Depends(get_db)):
     try:
         token = utils.get_token(request)
         data = await AdvertisementCrud.index(db=db, token=token)
+        if utils.is_token_revoked(token, db):
+            return jsonable_encoder(
+                {
+                    "status_code": 401,
+                    "message": "token revoked",
+                }
+            )
 
         if data:
             return jsonable_encoder(
@@ -37,6 +44,13 @@ async def buyer_advertisement(
     try:
         token = utils.get_token(request)
         data = await AdvertisementCrud.index(db=db, token=token)
+        if utils.is_token_revoked(token, db):
+            return jsonable_encoder(
+                {
+                    "status_code": 401,
+                    "message": "token revoked",
+                }
+            )
 
         if data:
             return jsonable_encoder(
@@ -65,6 +79,14 @@ async def create_advertisement(
             db=db, advertisement=advertisement, token=token
         )
 
+        if utils.is_token_revoked(token, db):
+            return jsonable_encoder(
+                {
+                    "status_code": 401,
+                    "message": "token revoked",
+                }
+            )
+
         if data:
             return jsonable_encoder(
                 {
@@ -91,6 +113,14 @@ async def seller_advertisement(
         data = await AdvertisementCrud.get(
             db=db, advertisement_id=advertisement_id, token=token
         )
+
+        if utils.is_token_revoked(token, db):
+            return jsonable_encoder(
+                {
+                    "status_code": 401,
+                    "message": "token revoked",
+                }
+            )
 
         if data:
             return jsonable_encoder(
@@ -120,6 +150,14 @@ async def buyer_advertisement(
             db=db, advertisement_id=advertisement_id, token=token
         )
 
+        if utils.is_token_revoked(token, db):
+            return jsonable_encoder(
+                {
+                    "status_code": 401,
+                    "message": "token revoked",
+                }
+            )
+
         if data:
             return jsonable_encoder(
                 {
@@ -145,6 +183,13 @@ async def search_advertisement(
     try:
         token = utils.get_token(request)
         data = await AdvertisementCrud.search(db=db, query=query, token=token)
+        if utils.is_token_revoked(token, db):
+            return jsonable_encoder(
+                {
+                    "status_code": 401,
+                    "message": "token revoked",
+                }
+            )
 
         if data:
             return jsonable_encoder(
@@ -174,6 +219,14 @@ async def cancel_advertisement(
             advertisement_id=advertisement_id, db=db, token=token
         )
 
+        if utils.is_token_revoked(token, db):
+            return jsonable_encoder(
+                {
+                    "status_code": 401,
+                    "message": "token revoked",
+                }
+            )
+
         if data:
             return jsonable_encoder(
                 {
@@ -199,6 +252,14 @@ async def content_based(categories, request: Request, db: Session = Depends(get_
         data = await AdvertisementCrud.content_based(
             categories=categories, db=db, token=token
         )
+
+        if utils.is_token_revoked(token, db):
+            return jsonable_encoder(
+                {
+                    "status_code": 401,
+                    "message": "token revoked",
+                }
+            )
 
         if data:
             return jsonable_encoder(

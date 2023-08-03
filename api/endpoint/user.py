@@ -2,7 +2,7 @@ from db.schemas import user as UserSchema
 from sqlalchemy.orm import Session
 from api.crud import user as UserCrud
 from fastapi.encoders import jsonable_encoder
-from fastapi import Depends, APIRouter
+from fastapi import Depends, APIRouter, Request
 from api.endpoint import get_db
 import utils
 from datetime import timedelta
@@ -23,6 +23,7 @@ async def create_user(user: UserSchema.UserCreate, db: Session = Depends(get_db)
         if type(data) is not str and data:
             data = data.__dict__
             data["token"] = access_token
+
             return jsonable_encoder(
                 {
                     "status_code": 200,
@@ -52,6 +53,7 @@ async def read_user(user: UserSchema.UserLogin, db: Session = Depends(get_db)):
         if data:
             data = data.__dict__
             data["token"] = access_token
+
             return jsonable_encoder(
                 {
                     "status_code": 200,
@@ -62,3 +64,16 @@ async def read_user(user: UserSchema.UserLogin, db: Session = Depends(get_db)):
         return jsonable_encoder({"status_code": 401, "message": "user not found"})
     except Exception as e:
         return jsonable_encoder({"status_code": 500, "message": str(e)})
+
+
+@router.post("/logout")
+async def destroy_session(request: Request, db: Session = Depends(get_db)):
+    token = utils.get_token(request)
+    if token:
+        utils.revoke_token(token, db)
+        return jsonable_encoder(
+            {
+                "status_code": 200,
+                "message": "token revoked",
+            }
+        )

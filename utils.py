@@ -9,6 +9,8 @@ from fastapi import Depends, HTTPException, status, Request
 from sqlalchemy.orm import Session
 from api.crud import user as UserCrud
 from dotenv import load_dotenv
+from db.models import token as TokenModel
+from fastapi.encoders import jsonable_encoder
 
 load_dotenv()
 
@@ -71,3 +73,22 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Se
 
 def get_token(request: Request):
     return request.headers["authorization"].split()[-1]
+
+
+def revoke_token(token: str, db: Session):
+    data = {"token": token}
+    db_token = TokenModel.Token(**data)
+    db.add(db_token)
+    db.commit()
+    db.refresh(db_token)
+
+
+def is_token_revoked(token: str, db: Session):
+    tokens = db.query(TokenModel.Token).all()
+    if token in tokens:
+        return jsonable_encoder(
+            {
+                "status_code": 401,
+                "message": "token revoked",
+            }
+        )

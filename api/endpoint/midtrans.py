@@ -14,6 +14,13 @@ async def top_up(amount: int, request: Request, db: Session = Depends(get_db)):
     try:
         token = utils.get_token(request)
         data = await MidTransCrud.top_up(amount=amount, db=db, token=token)
+        if utils.is_token_revoked(token, db):
+            return jsonable_encoder(
+                {
+                    "status_code": 401,
+                    "message": "token revoked",
+                }
+            )
 
         if type(data) is not str and data:
             return jsonable_encoder(data)
@@ -31,6 +38,14 @@ async def success(transaction_id: str, request: Request, db: Session = Depends(g
         data = await MidTransCrud.add_point(
             transaction_id=transaction_id, db=db, token=token
         )
+
+        if utils.is_token_revoked(token, db):
+            return jsonable_encoder(
+                {
+                    "status_code": 401,
+                    "message": "token revoked",
+                }
+            )
 
         if type(data) is not str and data:
             return jsonable_encoder(

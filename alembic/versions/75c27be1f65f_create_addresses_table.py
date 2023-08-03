@@ -7,6 +7,7 @@ Create Date: 2023-08-03 15:32:00.605468
 """
 from alembic import op
 import sqlalchemy as sa
+from sqlalchemy.sql import func
 
 
 # revision identifiers, used by Alembic.
@@ -28,6 +29,8 @@ def upgrade() -> None:
         sa.Column("postal_code", sa.String(8), nullable=False, index=True),
         sa.Column("latitude", sa.Float, nullable=False, default=0, index=True),
         sa.Column("longitude", sa.Float, nullable=False, default=0, index=True),
+        sa.Column("created_at", sa.DateTime(timezone=True), default=func.now()),
+        sa.Column("updated_at", sa.DateTime(timezone=True), nullable=True),
     )
     op.create_foreign_key(
         "fk_addresses_user_id",

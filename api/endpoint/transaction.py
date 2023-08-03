@@ -16,6 +16,13 @@ async def seller_transaction(
     try:
         token = utils.get_token(request)
         data = await TransactionCrud.index(db=db, token=token)
+        if utils.is_token_revoked(token, db):
+            return jsonable_encoder(
+                {
+                    "status_code": 401,
+                    "message": "token revoked",
+                }
+            )
 
         if data:
             return jsonable_encoder(
@@ -39,6 +46,13 @@ async def buyer_transaction(
     try:
         token = utils.get_token(request)
         data = await TransactionCrud.index(db=db, token=token)
+        if utils.is_token_revoked(token, db):
+            return jsonable_encoder(
+                {
+                    "status_code": 401,
+                    "message": "token revoked",
+                }
+            )
 
         if data:
             return jsonable_encoder(
@@ -64,6 +78,13 @@ async def create_transaction(
     try:
         token = utils.get_token(request)
         data = await TransactionCrud.create(db=db, transaction=transaction, token=token)
+        if utils.is_token_revoked(token, db):
+            return jsonable_encoder(
+                {
+                    "status_code": 401,
+                    "message": "token revoked",
+                }
+            )
 
         if data:
             return jsonable_encoder(
@@ -92,6 +113,14 @@ async def seller_transction(
             db=db, transaction_id=transaction_id, token=token
         )
 
+        if utils.is_token_revoked(token, db):
+            return jsonable_encoder(
+                {
+                    "status_code": 401,
+                    "message": "token revoked",
+                }
+            )
+
         if data:
             return jsonable_encoder(
                 {
@@ -108,7 +137,8 @@ async def seller_transction(
         )
     except Exception as e:
         return jsonable_encoder({"status_code": 500, "message": str(e)})
-    
+
+
 @router.get("/buyer-transaction/{transaction_id}")
 async def buyer_transction(
     transaction_id: str, request: Request, db: Session = Depends(get_db)
@@ -118,6 +148,14 @@ async def buyer_transction(
         data = await TransactionCrud.get(
             db=db, transaction_id=transaction_id, token=token
         )
+
+        if utils.is_token_revoked(token, db):
+            return jsonable_encoder(
+                {
+                    "status_code": 401,
+                    "message": "token revoked",
+                }
+            )
 
         if data:
             return jsonable_encoder(
@@ -146,6 +184,14 @@ async def update_transaction(
         data = await TransactionCrud.update(
             db=db, transaction_id=transaction_id, status=status, token=token
         )
+
+        if utils.is_token_revoked(token, db):
+            return jsonable_encoder(
+                {
+                    "status_code": 401,
+                    "message": "token revoked",
+                }
+            )
 
         if data:
             return jsonable_encoder(
