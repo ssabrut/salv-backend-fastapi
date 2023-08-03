@@ -17,6 +17,10 @@ async def index(db: Session, token: str):
             AdvertisementModel.Advertisement.food_waste_category_id
             == CategoryModel.FoodWasteCategory.id,
         )
+        .join(
+            UserModel.User,
+            UserModel.User.id == AdvertisementModel.Advertisement.user_id,
+        )
         .all()
     )
     user = await utils.get_current_user(
@@ -32,25 +36,15 @@ async def index(db: Session, token: str):
                 .all()
             )
 
-            for i in range(len(advertisements)):
-                advertisements[i] = {
-                    "end_date": advertisements[i].created_at + timedelta(days=5),
-                    "id": advertisements[i].id,
-                    "ongoing_weight": advertisements[i].ongoing_weight,
-                    "requested_weight": advertisements[i].requested_weight,
-                    "title": advertisements[i].name,
-                }
-        else:
-            for i in range(len(advertisements)):
-                advertisements[i] = {
-                    "category": advertisements[i].food_waste_category.name,
-                    "id": advertisements[i].id,
-                    "ongoing_weight": advertisements[i].ongoing_weight,
-                    "price": advertisements[i].price,
-                    "requested_weight": advertisements[i].requested_weight,
-                    "title": advertisements[i].name,
-                    "end_date": advertisements[i].created_at + timedelta(days=5),
-                }
+        for i in range(len(advertisements)):
+            advertisements[i] = {
+                "id": advertisements[i].id,
+                "title": advertisements[i].name,
+                "category": advertisements[i].food_waste_category.name,
+                "price": advertisements[i].price,
+                "user": advertisements[i].user.name,
+                "image": advertisements[i].user.image,
+            }
         return advertisements
     return utils.credentials_exception
 

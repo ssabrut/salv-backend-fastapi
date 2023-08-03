@@ -85,10 +85,4 @@ def revoke_token(token: str, db: Session):
 
 def is_token_revoked(token: str, db: Session):
     tokens = db.query(TokenModel.Token).all()
-    if token in tokens:
-        return jsonable_encoder(
-            {
-                "status_code": 401,
-                "message": "token revoked",
-            }
-        )
+    return token in tokens
