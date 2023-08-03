@@ -20,6 +20,7 @@ depends_on = None
 def upgrade() -> None:
     op.create_table(
         "addresses",
+        sa.Column("id", sa.Integer, primary_key=True, autoincrement=True),
         sa.Column("user_id", sa.String(50)),
         sa.Column("province", sa.String(50), nullable=False, index=True),
         sa.Column("city", sa.String(50), nullable=False, index=True),
