@@ -85,4 +85,4 @@ def revoke_token(token: str, db: Session):
 
 def is_token_revoked(token: str, db: Session):
     tokens = db.query(TokenModel.Token).all()
-    return token in tokens
+    return token in [t.token for t in tokens]
