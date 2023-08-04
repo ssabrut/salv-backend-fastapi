@@ -14,6 +14,8 @@ async def index(request: Request, db: Session = Depends(get_db)):
     try:
         token = utils.get_token(request)
         data = await DashboardCrud.index(db=db, token=token)
+        recent_transaction = await DashboardCrud.recent_transaction(db=db, token=token)
+
         if utils.is_token_revoked(token, db):
             return jsonable_encoder(
                 {
@@ -28,6 +30,7 @@ async def index(request: Request, db: Session = Depends(get_db)):
                     "status_code": 200,
                     "message": "success getting report",
                     "data": data,
+                    "transactions": recent_transaction,
                 }
             )
     except Exception as e:
