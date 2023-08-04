@@ -21,6 +21,7 @@ async def index(db: Session, token: str):
             UserModel.User,
             UserModel.User.id == AdvertisementModel.Advertisement.user_id,
         )
+        .filter(AdvertisementModel.Advertisement.status == "ongoing")
         .all()
     )
     user = await utils.get_current_user(
@@ -32,6 +33,15 @@ async def index(db: Session, token: str):
         if user.type == 2:
             advertisements = (
                 db.query(AdvertisementModel.Advertisement)
+                .join(
+                    CategoryModel.FoodWasteCategory,
+                    AdvertisementModel.Advertisement.food_waste_category_id
+                    == CategoryModel.FoodWasteCategory.id,
+                )
+                .join(
+                    UserModel.User,
+                    UserModel.User.id == AdvertisementModel.Advertisement.user_id,
+                )
                 .filter(AdvertisementModel.Advertisement.user_id == user.id)
                 .all()
             )
@@ -99,19 +109,15 @@ async def get(db: Session, advertisement_id: str, token: str):
         )
 
         advertisement = {
-            "additional_information": advertisement.additional_information,
-            "category": advertisement.food_waste_category.name,
             "id": advertisement.id,
-            "location": advertisement.location,
+            "ongoing_weight": advertisement.ongoing_weight,
+            "requested_weight": advertisement.requested_weight,
+            "title": advertisement.name,
+            "category": advertisement.food_waste_category.name,
+            "additional_information": advertisement.additional_information,
             "maximum_weight": advertisement.maximum_weight,
             "minimum_weight": advertisement.minimum_weight,
-            "ongoing_weight": advertisement.ongoing_weight,
             "price": advertisement.price,
-            "retrieval_system": advertisement.retrieval_system,
-            "title": advertisement.name,
-            "status": advertisement.status,
-            "latitude": advertisement.user.latitude,
-            "longitude": advertisement.user.longitude,
         }
 
         if not advertisement:
@@ -141,13 +147,12 @@ async def search(db: Session, query: str, token: str):
 
         for i in range(len(advertisements)):
             advertisements[i] = {
-                "category": advertisements[i].food_waste_category.name,
                 "id": advertisements[i].id,
-                "ongoing_weight": advertisements[i].ongoing_weight,
-                "price": advertisements[i].price,
-                "requested_weight": advertisements[i].requested_weight,
                 "title": advertisements[i].name,
-                "end_date": advertisements[i].created_at + timedelta(days=5),
+                "category": advertisements[i].food_waste_category.name,
+                "price": advertisements[i].price,
+                "user": advertisements[i].user.name,
+                "image": advertisements[i].user.image,
             }
         return advertisements
     return utils.credentials_exception
@@ -195,11 +200,10 @@ async def content_based(categories: list, db: Session, token: str):
                     ads = {
                         "id": advertisement.id,
                         "title": advertisement.name,
-                        "price": advertisement.price,
                         "category": advertisement.food_waste_category.name,
-                        "ongoing_weight": advertisement.ongoing_weight,
-                        "end_date": advertisement.created_at + timedelta(days=5),
-                        "requested_weight": advertisement.requested_weight,
+                        "price": advertisement.price,
+                        "user": advertisement.user.name,
+                        "image": advertisement.user.image,
                     }
                     data.append(ads)
         return data
