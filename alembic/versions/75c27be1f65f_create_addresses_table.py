@@ -46,4 +46,4 @@ def upgrade() -> None:
 def downgrade() -> None:
     op.drop_constraint("fk_addresses_user_id", "addresses", type_="foreignkey")
     op.drop_table("addresses")
-    op.drop_table("users")
+    

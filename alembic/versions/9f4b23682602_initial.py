@@ -144,4 +144,6 @@ def downgrade() -> None:
     )
     op.drop_table("transactions")
     op.drop_table("advertisements")
+    op.drop_table("educations")
     op.drop_table("food_waste_categories")
+    op.drop_table("users")
