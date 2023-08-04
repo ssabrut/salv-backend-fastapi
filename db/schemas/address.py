@@ -4,7 +4,6 @@ from db.schemas import Response
 
 
 class AddressBase(BaseModel):
-    user_id: str
     province: str
     city: str
     subdistrict: str

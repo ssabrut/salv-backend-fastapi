@@ -6,7 +6,6 @@ from db.schemas import Response
 class TransactionBase(BaseModel):
     advertisement_id: str
     weight: int
-    location: str
     image: str
 
 

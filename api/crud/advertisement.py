@@ -22,6 +22,7 @@ async def index(db: Session, token: str):
             UserModel.User.id == AdvertisementModel.Advertisement.user_id,
         )
         .filter(AdvertisementModel.Advertisement.status == "ongoing")
+        .order_by(AdvertisementModel.Advertisement.created_at)
         .all()
     )
     user = await utils.get_current_user(
@@ -43,6 +44,7 @@ async def index(db: Session, token: str):
                     UserModel.User.id == AdvertisementModel.Advertisement.user_id,
                 )
                 .filter(AdvertisementModel.Advertisement.user_id == user.id)
+                .order_by(AdvertisementModel.Advertisement.created_at)
                 .all()
             )
 
@@ -142,6 +144,7 @@ async def search(db: Session, query: str, token: str):
                     "%" + query.lower() + "%"
                 )
             )
+            .order_by(AdvertisementModel.Advertisement.created_at)
             .all()
         )
 
@@ -192,6 +195,7 @@ async def content_based(categories: list, db: Session, token: str):
                         "%" + category.lower() + "%"
                     )
                 )
+                .order_by(AdvertisementModel.Advertisement.created_at)
                 .all()
             )
 

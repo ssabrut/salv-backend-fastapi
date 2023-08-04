@@ -26,6 +26,7 @@ async def index(db: Session, token: str):
             AdvertisementModel.Advertisement.user_id == UserModel.User.id,
         )
         .filter(TransactionModel.Transaction.user_id == user.id)
+        .order_by(TransactionModel.Transaction.created_at)
         .all()
     )
 
@@ -34,12 +35,11 @@ async def index(db: Session, token: str):
     if user:
         for i in range(len(transactions)):
             transactions[i] = {
-                "created_at": transactions[i].created_at,
                 "id": transactions[i].id,
-                "user": transactions[i].advertisement.user.name,
                 "status": transactions[i].status,
-                "title": transactions[i].advertisement.name,
                 "total_price": transactions[i].total_price,
+                "title": transactions[i].advertisement.name,
+                "user": transactions[i].advertisement.user.name,
             }
         return transactions
     return utils.credentials_exception
@@ -74,7 +74,6 @@ async def create(
                 "user_id": user.id,
                 "advertisement_id": transaction.advertisement_id,
                 "weight": transaction.weight,
-                "location": transaction.location,
                 "image": transaction.image,
                 "total_price": transaction.weight * advertisement.price,
             }
@@ -102,6 +101,7 @@ async def get(db: Session, transaction_id: str, token: str):
             AdvertisementModel.Advertisement.food_waste_category_id
             == CategoryModel.FoodWasteCategory.id,
         )
+        .join(UserModel.User, TransactionModel.Transaction.user_id == UserModel.User.id)
         .filter(TransactionModel.Transaction.id == transaction_id)
         .first()
     )
@@ -113,20 +113,19 @@ async def get(db: Session, transaction_id: str, token: str):
 
     if user:
         data = {
-            "additional_information": transaction.advertisement.additional_information,
-            "category": transaction.advertisement.food_waste_category.name,
             "id": transaction.id,
-            "location": transaction.location,
-            "maximum_weight": transaction.advertisement.maximum_weight,
-            "minimum_weight": transaction.advertisement.minimum_weight,
-            "price": transaction.advertisement.price,
-            "retrieval_system": transaction.advertisement.retrieval_system,
-            "status": transaction.status,
-            "image": transaction.image,
+            "ongoing_weight": transaction.advertisement.ongoing_weight,
+            "requested_weight": transaction.advertisement.requested_weight,
             "title": transaction.advertisement.name,
-            "total_price": transaction.total_price,
+            "category": transaction.advertisement.food_waste_category.name,
+            "additional_information": transaction.advertisement.additional_information,
             "weight": transaction.weight,
+            "total_price": transaction.total_price,
         }
+
+        if user.type == 2:
+            data["latitude"] = transaction.user.latitude
+            data["longitude"] = transaction.user.longitude
         return data
     return utils.credentials_exception
 

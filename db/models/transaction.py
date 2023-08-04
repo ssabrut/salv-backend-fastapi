@@ -11,7 +11,6 @@ class Transaction(Base):
     advertisement_id = Column(String(50), ForeignKey("advertisements.id"))
     status = Column(Integer, nullable=True, default=0)
     weight = Column(Integer, nullable=False, index=True)
-    location = Column(Text, nullable=False, index=True)
     image = Column(String(255), nullable=False, index=True)
     total_price = Column(Integer, nullable=False, index=True)
     created_at = Column(DateTime(timezone=True), default=func.now())
