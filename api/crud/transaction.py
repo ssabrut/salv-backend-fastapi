@@ -4,6 +4,7 @@ from db.schemas import transaction as TransactionSchema
 from db.models import advertisement as AdvertisementModel
 from db.models import user as UserModel
 from db.models import food_waste_category as CategoryModel
+from sqlalchemy import desc
 import uuid
 import utils
 
@@ -26,21 +27,34 @@ async def index(db: Session, token: str):
             AdvertisementModel.Advertisement.user_id == UserModel.User.id,
         )
         .filter(TransactionModel.Transaction.user_id == user.id)
-        .order_by(TransactionModel.Transaction.created_at)
+        .order_by(desc(AdvertisementModel.Advertisement.created_at))
         .all()
     )
 
     transactions.sort(key=lambda t: (t.status != 0 and t.status != 2, t.status))
 
     if user:
-        for i in range(len(transactions)):
-            transactions[i] = {
-                "id": transactions[i].id,
-                "status": transactions[i].status,
-                "total_price": transactions[i].total_price,
-                "title": transactions[i].advertisement.name,
-                "user": transactions[i].advertisement.user.name,
-            }
+        if user.type == 2:
+            for i in range(len(transactions)):
+                transactions[i] = {
+                    "id": transactions[i].id,
+                    "status": transactions[i].status,
+                    "title": transactions[i].advertisement.name,
+                    "user": transactions[i].advertisement.user.name,
+                    "image": transactions[i].advertisement.user.image,
+                    "weight": transactions[i].weight,
+                    "created_at": transactions[i].created_at,
+                }
+        else:
+            for i in range(len(transactions)):
+                transactions[i] = {
+                    "id": transactions[i].id,
+                    "status": transactions[i].status,
+                    "total_price": transactions[i].total_price,
+                    "title": transactions[i].advertisement.name,
+                    "user": transactions[i].advertisement.user.name,
+                    "image": transactions[i].advertisement.user.image,
+                }
         return transactions
     return utils.credentials_exception
 

@@ -11,8 +11,6 @@ class Advertisement(Base):
     user_id = Column(String(50), ForeignKey("users.id"))
     status = Column(String(50), nullable=False, default="ongoing")
     name = Column(String(255), nullable=False)
-    retrieval_system = Column(Integer, nullable=False)
-    location = Column(Text, nullable=False)
     additional_information = Column(Text, nullable=True, default="")
     price = Column(Integer, nullable=False)
     ongoing_weight = Column(Integer, nullable=True, default=0)

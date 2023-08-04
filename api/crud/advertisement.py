@@ -5,8 +5,7 @@ from db.models import food_waste_category as CategoryModel
 from db.models import user as UserModel
 import uuid
 import utils
-from sqlalchemy import func
-from datetime import timedelta
+from sqlalchemy import func, desc
 
 
 async def index(db: Session, token: str):
@@ -44,7 +43,7 @@ async def index(db: Session, token: str):
                     UserModel.User.id == AdvertisementModel.Advertisement.user_id,
                 )
                 .filter(AdvertisementModel.Advertisement.user_id == user.id)
-                .order_by(AdvertisementModel.Advertisement.created_at)
+                .order_by(desc(AdvertisementModel.Advertisement.created_at))
                 .all()
             )
 
@@ -76,8 +75,6 @@ async def create(
             "food_waste_category_id": advertisement.food_waste_category_id,
             "user_id": user.id,
             "name": advertisement.name,
-            "retrieval_system": advertisement.retrieval_system,
-            "location": advertisement.location,
             "additional_information": advertisement.additional_information
             if advertisement.additional_information
             else "",
@@ -144,7 +141,7 @@ async def search(db: Session, query: str, token: str):
                     "%" + query.lower() + "%"
                 )
             )
-            .order_by(AdvertisementModel.Advertisement.created_at)
+            .order_by(desc(AdvertisementModel.Advertisement.created_at))
             .all()
         )
 
@@ -195,7 +192,7 @@ async def content_based(categories: list, db: Session, token: str):
                         "%" + category.lower() + "%"
                     )
                 )
-                .order_by(AdvertisementModel.Advertisement.created_at)
+                .order_by(desc(AdvertisementModel.Advertisement.created_at))
                 .all()
             )
 

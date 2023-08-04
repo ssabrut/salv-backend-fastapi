@@ -48,16 +48,11 @@ def upgrade() -> None:
         Column("user_id", String(50)),
         Column("status", String(20), nullable=False, default="ongoing", index=True),
         Column("name", Text, nullable=False, index=True),
-        Column("retrieval_system", Integer, nullable=False, index=True),
-        Column("location", Text, nullable=False, index=True),
         Column("additional_information", Text, nullable=True, default="", index=True),
         Column("price", Integer, nullable=False, index=True),
         Column("requested_weight", Integer, nullable=False, index=True),
         Column("minimum_weight", Integer, nullable=False, index=True),
         Column("maximum_weight", Integer, nullable=False, index=True),
-        Column(
-            "end_date", Date, nullable=True, default=date.today() + timedelta(days=3)
-        ),
         Column("created_at", DateTime(timezone=True), default=func.now()),
         Column("updated_at", DateTime(timezone=True), nullable=True),
     )

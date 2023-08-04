@@ -27,4 +27,4 @@ def upgrade() -> None:
 
 
 def downgrade() -> None:
-    op.drop_column("tokens")
+    op.drop_table("tokens")

@@ -6,8 +6,6 @@ from db.schemas import Response
 class AdvertisementBase(BaseModel):
     food_waste_category_id: str
     name: str
-    retrieval_system: int
-    location: str
     additional_information: str | None = ""
     price: int
     requested_weight: int

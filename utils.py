@@ -65,6 +65,10 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Se
     except JWTError:
         raise credentials_exception
     finally:
+        expiration = payload.get("exp")
+        if expiration is None or datetime.utcnow() > datetime.fromtimestamp(expiration):
+            raise HTTPException(status_code=401, detail="Token has expired")
+
         user = await UserCrud.authenticate(db=db, username=token_data.username)
         if user is None:
             raise credentials_exception
