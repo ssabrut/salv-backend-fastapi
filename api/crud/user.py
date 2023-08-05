@@ -32,15 +32,7 @@ async def register(db: Session, user: UserSchema.UserCreate):
         "email": user.email,
         "password": hashed_password,
         "phone_number": user.phone_number,
-        # "province": user.province,
-        # "city": user.city,
-        # "subdistrict": user.subdistrict,
-        # "ward": user.ward,
-        # "address": user.address,
-        # "postal_code": user.postal_code,
         "image": user.image if user.image else "",
-        # "latitude": user.latitude if user.latitude else 0,
-        # "longitude": user.longitude if user.longitude else 0,
     }
 
     db_user = UserModel.User(**data)

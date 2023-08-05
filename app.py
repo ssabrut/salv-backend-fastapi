@@ -7,6 +7,7 @@ from api.endpoint.transaction import router as transaction_router
 from api.endpoint.midtrans import router as midtrans_router
 from api.endpoint.article import router as article_router
 from api.endpoint.dashboard import router as dashboard_router
+from api.endpoint.education import router as education_router
 
 Base.metadata.create_all(bind=engine)
 app = FastAPI()
@@ -24,3 +25,4 @@ app.include_router(transaction_router)
 app.include_router(midtrans_router)
 app.include_router(article_router)
 app.include_router(dashboard_router)
+app.include_router(education_router)
