@@ -9,16 +9,16 @@ class UserBase(BaseModel):
     username: str
     email: str
     phone_number: str
-    province: str
-    city: str
-    subdistrict: str
-    ward: str
-    address: str
-    postal_code: str
+    # province: str
+    # city: str
+    # subdistrict: str
+    # ward: str
+    # address: str
+    # postal_code: str
     point: int | None = 0
     image: str | None = ""
-    latitude: float | None = 0.0
-    longitude: float | None = 0.0
+    # latitude: float | None = 0.0
+    # longitude: float | None = 0.0
 
 
 class UserCreate(UserBase):

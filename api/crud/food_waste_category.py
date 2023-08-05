@@ -6,6 +6,12 @@ import uuid
 
 async def index(db: Session):
     categories = db.query(CategoryModel.FoodWasteCategory).all()
+    for i in range(len(categories)):
+        data = categories[i]
+        data = data.__dict__
+        data.pop("created_at")
+        data.pop("updated_at")
+        categories[i] = data
     return categories
 
 

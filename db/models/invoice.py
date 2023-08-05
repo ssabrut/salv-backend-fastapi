@@ -8,9 +8,8 @@ class Invoice(Base):
     __tablename__ = "invoices"
     id = Column(String(50), primary_key=True, unique=True)
     user_id = Column(String(50), ForeignKey("users.id"))
-    order_id = Column(String(50), index=True)
+    order_id = Column(String(50), nullable=False, index=True)
     amount = Column(Integer, nullable=False, index=True)
-    status = Column(Integer, nullable=False)
     created_at = Column(DateTime(timezone=True), default=func.now())
     updated_at = Column(DateTime(timezone=True), nullable=True)
 

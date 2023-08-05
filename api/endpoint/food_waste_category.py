@@ -30,9 +30,7 @@ async def create_category(
         return jsonable_encoder({"status_code": 500, "message": str(e)})
 
 
-@router.get(
-    "/food-waste-categories", response_model=CategorySchema.FoodWasteCategoryResponse
-)
+@router.get("/buyer-advertisement/create")
 async def read_category(db: Session = Depends(get_db)):
     try:
         data = await CategoryCrud.index(db)

@@ -17,7 +17,7 @@ depends_on = None
 
 
 def upgrade() -> None:
-    op.drop_table("educations")
+    pass
 
 
 def downgrade() -> None:

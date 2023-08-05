@@ -5,9 +5,7 @@ from db.schemas import Response
 
 class TransactionBase(BaseModel):
     advertisement_id: str
-    retrieval_system: int
     weight: int
-    location: str
     image: str
 
 

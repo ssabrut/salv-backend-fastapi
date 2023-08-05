@@ -7,7 +7,7 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import auth
 
-cred = credentials.Certificate("salv-4c518-firebase-adminsdk-h5rg2-6b49c4820c.json")
+cred = credentials.Certificate("salv-amcc-firebase-adminsdk-bq8va-773dfd1fd6.json")
 firebase_admin.initialize_app(cred)
 
 
@@ -32,22 +32,22 @@ async def register(db: Session, user: UserSchema.UserCreate):
         "email": user.email,
         "password": hashed_password,
         "phone_number": user.phone_number,
-        "province": user.province,
-        "city": user.city,
-        "subdistrict": user.subdistrict,
-        "ward": user.ward,
-        "address": user.address,
-        "postal_code": user.postal_code,
+        # "province": user.province,
+        # "city": user.city,
+        # "subdistrict": user.subdistrict,
+        # "ward": user.ward,
+        # "address": user.address,
+        # "postal_code": user.postal_code,
         "image": user.image if user.image else "",
-        "latitude": user.latitude if user.latitude else 0,
-        "longitude": user.longitude if user.longitude else 0,
+        # "latitude": user.latitude if user.latitude else 0,
+        # "longitude": user.longitude if user.longitude else 0,
     }
 
     db_user = UserModel.User(**data)
     db.add(db_user)
     db.commit()
 
-    auth.create_user(email=user.email, password=user.password, uid=_uuid)
+    # auth.create_user(email=user.email, password=user.password, uid=_uuid)
     db.refresh(db_user)
     return db_user
 

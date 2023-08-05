@@ -9,6 +9,8 @@ from fastapi import Depends, HTTPException, status, Request
 from sqlalchemy.orm import Session
 from api.crud import user as UserCrud
 from dotenv import load_dotenv
+from db.models import token as TokenModel
+from fastapi.encoders import jsonable_encoder
 
 load_dotenv()
 
@@ -47,7 +49,7 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
     else:
-        expire = datetime.utcnow() + timedelta(minutes=15)
+        expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
@@ -63,6 +65,10 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Se
     except JWTError:
         raise credentials_exception
     finally:
+        expiration = payload.get("exp")
+        if expiration is None or datetime.utcnow() > datetime.fromtimestamp(expiration):
+            raise HTTPException(status_code=401, detail="Token has expired")
+
         user = await UserCrud.authenticate(db=db, username=token_data.username)
         if user is None:
             raise credentials_exception
@@ -71,3 +77,16 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Se
 
 def get_token(request: Request):
     return request.headers["authorization"].split()[-1]
+
+
+def revoke_token(token: str, db: Session):
+    data = {"token": token}
+    db_token = TokenModel.Token(**data)
+    db.add(db_token)
+    db.commit()
+    db.refresh(db_token)
+
+
+def is_token_revoked(token: str, db: Session):
+    tokens = db.query(TokenModel.Token).all()
+    return token in [t.token for t in tokens]
