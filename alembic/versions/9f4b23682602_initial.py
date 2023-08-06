@@ -107,7 +107,7 @@ def upgrade() -> None:
         ),
         Column("user_id", String(50)),
         Column("advertisement_id", String(50)),
-        Column("status", Integer, default=0),
+        Column("status", String(50), default=0),
         Column("weight", Integer, nullable=False, index=True),
         Column("image", Text, nullable=False, index=True),
         Column("total_price", Integer, nullable=False, index=True),
