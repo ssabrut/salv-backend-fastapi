@@ -86,17 +86,19 @@ async def create_transaction(
                 }
             )
 
-        if data:
+        if data and type(data) == str:
             return jsonable_encoder(
                 {
                     "status_code": 200,
                     "message": "success to create transaction",
+                    "data": data,
                 }
             )
         return jsonable_encoder(
             {
                 "status_code": 400,
                 "message": "failed to create transaction",
+                "data": data,
             }
         )
     except Exception as e:

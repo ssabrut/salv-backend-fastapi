@@ -11,6 +11,7 @@ async def index(db: Session, token: str):
         .join(
             FoodWasteCategory, Education.food_waste_category_id == FoodWasteCategory.id
         )
+        .filter(Education.parent_id == None)
         .order_by(desc(Education.created_at))
         .all()
     )
@@ -103,7 +104,7 @@ async def get(education_id: str, db: Session, token: str):
                 }
             )
 
-        for child in childs:
+        for child in childs[::-1]:
             children.append(child)
 
         data = {
