@@ -31,7 +31,7 @@ async def seller_advertisement(request: Request, db: Session = Depends(get_db)):
                 }
             )
         return jsonable_encoder(
-            {"status_code": 400, "message": "failed get all advertisement"}
+            {"status_code": 400, "message": "no data", "data": data}
         )
     except Exception as e:
         return jsonable_encoder({"status_code": 500, "message": str(e)})
@@ -61,7 +61,7 @@ async def buyer_advertisement(
                 }
             )
         return jsonable_encoder(
-            {"status_code": 400, "message": "failed get all advertisement"}
+            {"status_code": 400, "message": "no data", "data": data}
         )
     except Exception as e:
         return jsonable_encoder({"status_code": 500, "message": str(e)})
@@ -98,6 +98,7 @@ async def create_advertisement(
             {
                 "status_code": 400,
                 "message": "failed to create advertisement",
+                "data": data,
             }
         )
     except Exception as e:
@@ -131,10 +132,7 @@ async def seller_advertisement(
                 }
             )
         return jsonable_encoder(
-            {
-                "status_code": 400,
-                "message": "advertisement not found",
-            }
+            {"status_code": 400, "message": "advertisement not found", "data": data}
         )
     except Exception as e:
         return jsonable_encoder({"status_code": 500, "message": str(e)})
@@ -167,10 +165,7 @@ async def buyer_advertisement(
                 }
             )
         return jsonable_encoder(
-            {
-                "status_code": 400,
-                "message": "advertisement not found",
-            }
+            {"status_code": 400, "message": "advertisement not found", "data": data}
         )
     except Exception as e:
         return jsonable_encoder({"status_code": 500, "message": str(e)})
@@ -200,10 +195,7 @@ async def search_advertisement(
                 }
             )
         return jsonable_encoder(
-            {
-                "status_code": 400,
-                "message": "no advertisements found",
-            }
+            {"status_code": 400, "message": "no advertisements found", "data": data}
         )
     except Exception as e:
         return jsonable_encoder({"status_code": 500, "message": str(e)})
@@ -238,6 +230,7 @@ async def cancel_advertisement(
             {
                 "status_code": 400,
                 "message": "failed to cancel advertisement",
+                "data": data,
             }
         )
     except Exception as e:
@@ -273,6 +266,7 @@ async def content_based(categories, request: Request, db: Session = Depends(get_
             {
                 "status_code": 400,
                 "message": "failed getting advertisement recommendation",
+                "data": data,
             }
         )
     except Exception as e:

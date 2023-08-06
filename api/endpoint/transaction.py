@@ -33,7 +33,7 @@ async def seller_transaction(
                 }
             )
         return jsonable_encoder(
-            {"status_code": 400, "message": "failed get all transaction"}
+            {"status_code": 400, "message": "failed get all transaction", "data": data}
         )
     except Exception as e:
         return jsonable_encoder({"status_code": 500, "message": str(e)})
@@ -63,7 +63,7 @@ async def buyer_transaction(
                 }
             )
         return jsonable_encoder(
-            {"status_code": 400, "message": "failed get all transaction"}
+            {"status_code": 400, "message": "failed get all transaction", "data": data}
         )
     except Exception as e:
         return jsonable_encoder({"status_code": 500, "message": str(e)})
@@ -130,10 +130,7 @@ async def seller_transction(
                 }
             )
         return jsonable_encoder(
-            {
-                "status_code": 400,
-                "message": "failed getting transaction",
-            }
+            {"status_code": 400, "message": "failed getting transaction", "data": data}
         )
     except Exception as e:
         return jsonable_encoder({"status_code": 500, "message": str(e)})
@@ -166,10 +163,7 @@ async def buyer_transction(
                 }
             )
         return jsonable_encoder(
-            {
-                "status_code": 400,
-                "message": "failed getting transaction",
-            }
+            {"status_code": 400, "message": "failed getting transaction", "data": data}
         )
     except Exception as e:
         return jsonable_encoder({"status_code": 500, "message": str(e)})
