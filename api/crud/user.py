@@ -6,16 +6,40 @@ from utils import get_password_hash, verify_password
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import auth
+from db.models.user import Address
+import utils
 
 cred = credentials.Certificate("salv-amcc-firebase-adminsdk-bq8va-773dfd1fd6.json")
 firebase_admin.initialize_app(cred)
 
 
+async def is_address_exist(db: Session, token: str):
+    user = await utils.get_current_user(
+        token=token,
+        db=db,
+    )
+
+    address = (
+        db.query(Address)
+        .join(UserModel.User, Address.user_id == UserModel.User.id)
+        .filter(Address.user_id == user.id)
+        .first()
+    )
+
+    if user:
+        return address
+    return utils.credentials_exception
+
+
 async def register(db: Session, user: UserSchema.UserCreate):
     _uuid = str(uuid.uuid4())
     hashed_password = get_password_hash(user.password)
-    
-    if db.query(UserModel.User).filter(UserModel.User.username == user.username).first():
+
+    if (
+        db.query(UserModel.User)
+        .filter(UserModel.User.username == user.username)
+        .first()
+    ):
         return "username exist"
 
     if db.query(UserModel.User).filter(UserModel.User.email == user.email).first():

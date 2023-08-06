@@ -8,6 +8,7 @@ Create Date: 2023-08-04 22:25:58.943529
 from alembic import op
 import sqlalchemy as sa
 from db.models.user import User
+from db.models.user import Address
 from db.models.food_waste_category import FoodWasteCategory
 from db.models.advertisement import Advertisement
 from db.models.education import Education
@@ -79,6 +80,23 @@ def upgrade() -> None:
         session.add(user)
         session.flush()
         user_id.append(user.id)
+
+    user_address = [
+        {
+            "user_id": "f49fffcb-e225-4ba9-b15b-a1849df28a38",
+            "province": "Jawa Timur",
+            "city": "Surabaya",
+            "subdistrict": "Sambikerep",
+            "ward": "Sambikerep",
+            "address": "JL. Boulevard Utara",
+            "postal_code": "60219",
+        }
+    ]
+
+    for address_data in user_address:
+        address = Address(**address_data)
+        session.add(address)
+        session.flush()
 
     categories = [
         {"id": "5017578d-7911-4cae-8538-d5e085a9e202", "name": "Buah-buahan"},

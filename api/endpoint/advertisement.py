@@ -4,9 +4,38 @@ from api.endpoint import get_db
 from sqlalchemy.orm import Session
 from fastapi.encoders import jsonable_encoder
 from api.crud import advertisement as AdvertisementCrud
+from api.crud.user import is_address_exist
 import utils
 
 router = APIRouter()
+
+
+@router.get("/check-address")
+async def check_address(request: Request, db: Session = Depends(get_db)):
+    try:
+        token = utils.get_token(request)
+        data = await is_address_exist(db=db, token=token)
+        if utils.is_token_revoked(token, db):
+            return jsonable_encoder(
+                {
+                    "status_code": 401,
+                    "message": "token revoked",
+                }
+            )
+
+        if data:
+            return jsonable_encoder(
+                {
+                    "status_code": 200,
+                    "message": "success getting address",
+                    "data": data,
+                }
+            )
+        return jsonable_encoder(
+            {"status_code": 400, "message": "no address set", "data": data}
+        )
+    except Exception as e:
+        return jsonable_encoder({"status_code": 500, "message": str(e)})
 
 
 @router.get("/seller-advertisement/index")
