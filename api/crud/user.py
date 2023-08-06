@@ -76,3 +76,28 @@ async def authenticate(db: Session, username: str, password: str = ""):
     if not verify_password(password, user.password) and password != "":
         return False
     return user
+
+
+async def create_address(db: Session, address: Address, token: str):
+    user = await utils.get_current_user(
+        token=token,
+        db=db,
+    )
+
+    if user:
+        db_address = Address(
+            user_id=user.id,
+            province=address.province,
+            city=address.city,
+            subdistrict=address.subdistrict,
+            ward=address.ward,
+            address=address.address,
+            postal_code=address.postal_code,
+            latitude=address.latitude,
+            longitude=address.longitude,
+        )
+        db.add(db_address)
+        db.commit()
+        db.refresh(db_address)
+        return db_address
+    return utils.credentials_exception

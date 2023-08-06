@@ -77,3 +77,25 @@ async def destroy_session(request: Request, db: Session = Depends(get_db)):
                 "message": "token revoked",
             }
         )
+
+
+@router.post("/address/create")
+async def create_address(
+    address: UserSchema.AddressBase, request: Request, db: Session = Depends(get_db)
+):
+    try:
+        token = utils.get_token(request)
+        data = await UserCrud.create_address(db=db, address=address, token=token)
+        if data:
+            return jsonable_encoder(
+                {
+                    "status_code": 200,
+                    "message": "address created",
+                    "data": data,
+                }
+            )
+        return jsonable_encoder(
+            {"status_code": 400, "message": "address failed to create"}
+        )
+    except Exception as e:
+        return jsonable_encoder({"status_code": 500, "message": str(e)})

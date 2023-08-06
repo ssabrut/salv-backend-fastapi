@@ -28,7 +28,7 @@ def upgrade() -> None:
         Column("password", String(150), nullable=False),
         Column("phone_number", String(15), nullable=False, index=True),
         Column("point", Integer, default=0, nullable=False, index=True),
-        Column("image", String(255), default="", index=True),
+        Column("image", Text, default="", index=True),
         Column("created_at", DateTime(timezone=True), default=func.now()),
         Column("updated_at", DateTime(timezone=True), nullable=True),
     )
