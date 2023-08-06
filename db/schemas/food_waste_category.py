@@ -5,6 +5,7 @@ from db.schemas import Response
 
 class FoodWasteCategoryBase(BaseModel):
     name: str
+    image: str
 
 
 class FoodWasteCategory(FoodWasteCategoryBase):
