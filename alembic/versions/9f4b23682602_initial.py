@@ -108,7 +108,7 @@ def upgrade() -> None:
         Column("advertisement_id", String(50)),
         Column("status", String(10), nullable=True, default="pending"),
         Column("weight", Integer, nullable=False, index=True),
-        Column("image", String(255), nullable=False, index=True),
+        Column("image", Text, nullable=False, index=True),
         Column("total_price", Integer, nullable=False, index=True),
         Column("created_at", DateTime(timezone=True), default=func.now()),
         Column("updated_at", DateTime(timezone=True), nullable=True),
