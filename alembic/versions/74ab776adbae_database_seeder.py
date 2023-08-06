@@ -103,8 +103,16 @@ def upgrade() -> None:
         session.flush()
 
     categories = [
-        {"id": "5017578d-7911-4cae-8538-d5e085a9e202", "name": "Buah-buahan"},
-        {"id": "407ac75b-d365-40a3-9d39-38ccdfc49b8b", "name": "Sayur-sayuran"},
+        {
+            "id": "5017578d-7911-4cae-8538-d5e085a9e202",
+            "name": "Buah-buahan",
+            "image": "https://firebasestorage.googleapis.com/v0/b/salv-amcc.appspot.com/o/dashboard_image%2Fdownload%20(1).jpeg?alt=media&token=98677b8d-855c-4ade-8925-d472be0f403f",
+        },
+        {
+            "id": "407ac75b-d365-40a3-9d39-38ccdfc49b8b",
+            "name": "Sayur-sayuran",
+            "image": "https://firebasestorage.googleapis.com/v0/b/salv-amcc.appspot.com/o/dashboard_image%2Fdownload-removebg-preview%20(2)%201.png?alt=media&token=eb14f631-6721-460d-bc93-733d0d195c0f",
+        },
     ]
 
     for category_data in categories:

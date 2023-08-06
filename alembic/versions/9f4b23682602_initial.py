@@ -37,6 +37,7 @@ def upgrade() -> None:
         "food_waste_categories",
         Column("id", String(50), primary_key=True, unique=True, index=True),
         Column("name", String(20), nullable=False, index=True),
+        Column("image", Text, nullable=True, default=""),
         Column("created_at", DateTime(timezone=True), default=func.now()),
         Column("updated_at", DateTime(timezone=True), nullable=True),
     )
@@ -106,7 +107,7 @@ def upgrade() -> None:
         ),
         Column("user_id", String(50)),
         Column("advertisement_id", String(50)),
-        Column("status", String(10), nullable=True, default="pending"),
+        Column("status", Integer, default=0),
         Column("weight", Integer, nullable=False, index=True),
         Column("image", Text, nullable=False, index=True),
         Column("total_price", Integer, nullable=False, index=True),

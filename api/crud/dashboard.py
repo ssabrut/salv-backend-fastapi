@@ -85,6 +85,7 @@ async def recent_transaction(db: Session, token: str):
                 "title": transactions[i].advertisement.name,
                 "total_price": transactions[i].total_price,
                 "user": transactions[i].advertisement.user.name,
+                "image": transactions[i].advertisement.user.image,
             }
         return transactions
     return utils.credentials_exception
