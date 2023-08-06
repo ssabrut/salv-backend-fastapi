@@ -44,6 +44,7 @@ def upgrade() -> None:
             "username": "kjinhiro",
             "email": "kjinhiro@gmail.com",
             "phone_number": "12390785129",
+            "image": "https://firebasestorage.googleapis.com/v0/b/salv-amcc.appspot.com/o/profile_picture%2Fimages.jpeg?alt=media&token=19bf4f4c-7b85-4654-97aa-4bdc40595505",
             "password": get_password_hash("12345678"),
         },
         {
@@ -53,6 +54,7 @@ def upgrade() -> None:
             "username": "nazzh",
             "email": "nazzh@gmail.com",
             "phone_number": "12390785129",
+            "image": "https://firebasestorage.googleapis.com/v0/b/salv-amcc.appspot.com/o/profile_picture%2Fdownload.jpeg?alt=media&token=ec1c095a-dd1d-4704-926e-58ef96c672a1",
             "password": get_password_hash("12345678"),
         },
         {
@@ -62,6 +64,7 @@ def upgrade() -> None:
             "username": "achjaluwae",
             "email": "achjaluwae@gmail.com",
             "phone_number": "12390785129",
+            "image": "https://firebasestorage.googleapis.com/v0/b/salv-amcc.appspot.com/o/profile_picture%2Fimages%20(1).jpeg?alt=media&token=108314c9-d623-4a3b-87ae-d26bd6229301",
             "password": get_password_hash("12345678"),
         },
         {
@@ -71,6 +74,7 @@ def upgrade() -> None:
             "username": "ssabrut",
             "email": "ssabrut@gmail.com",
             "phone_number": "12390785129",
+            "image": "https://firebasestorage.googleapis.com/v0/b/salv-amcc.appspot.com/o/profile_picture%2Fpexels-pixabay-220453.jpg?alt=media&token=753566f5-5a30-4c30-9772-dda6db6e28e9",
             "password": get_password_hash("12345678"),
         },
     ]
