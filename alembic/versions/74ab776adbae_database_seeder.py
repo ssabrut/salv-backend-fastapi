@@ -120,7 +120,7 @@ def upgrade() -> None:
             "requested_weight": 50,
             "minimum_weight": 1,
             "maximum_weight": 50,
-            "ongoing_weight": 14,
+            "ongoing_weight": 0,
         },
         {
             "id": "cfb4a1fd-865e-4deb-970c-7ed0e46042b9",
@@ -132,7 +132,7 @@ def upgrade() -> None:
             "requested_weight": 100,
             "minimum_weight": 1,
             "maximum_weight": 100,
-            "ongoing_weight": 20,
+            "ongoing_weight": 0,
         },
         {
             "id": "4e349a84-c268-4837-b50f-51740732b920",
@@ -144,7 +144,7 @@ def upgrade() -> None:
             "requested_weight": 30,
             "minimum_weight": 1,
             "maximum_weight": 30,
-            "ongoing_weight": 24,
+            "ongoing_weight": 0,
         },
         {
             "id": "ae52cfde-322d-43f3-bfe0-7c0507d29b37",
@@ -156,7 +156,7 @@ def upgrade() -> None:
             "requested_weight": 20,
             "minimum_weight": 1,
             "maximum_weight": 20,
-            "ongoing_weight": 9,
+            "ongoing_weight": 0,
         },
     ]
 

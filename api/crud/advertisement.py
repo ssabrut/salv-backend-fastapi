@@ -129,21 +129,33 @@ async def search(db: Session, query: str, token: str):
     user = await utils.get_current_user(token=token, db=db)
 
     if user:
-        advertisements = (
-            db.query(AdvertisementModel.Advertisement)
-            .join(
-                CategoryModel.FoodWasteCategory,
-                AdvertisementModel.Advertisement.food_waste_category_id
-                == CategoryModel.FoodWasteCategory.id,
-            )
-            .filter(
-                func.lower(AdvertisementModel.Advertisement.name).like(
-                    "%" + query.lower() + "%"
+        if query != "":
+            advertisements = (
+                db.query(AdvertisementModel.Advertisement)
+                .join(
+                    CategoryModel.FoodWasteCategory,
+                    AdvertisementModel.Advertisement.food_waste_category_id
+                    == CategoryModel.FoodWasteCategory.id,
                 )
+                .filter(
+                    func.lower(AdvertisementModel.Advertisement.name).like(
+                        "%" + query.lower() + "%"
+                    )
+                )
+                .order_by(desc(AdvertisementModel.Advertisement.created_at))
+                .all()
             )
-            .order_by(desc(AdvertisementModel.Advertisement.created_at))
-            .all()
-        )
+        else:
+            advertisements = (
+                db.query(AdvertisementModel.Advertisement)
+                .join(
+                    CategoryModel.FoodWasteCategory,
+                    AdvertisementModel.Advertisement.food_waste_category_id
+                    == CategoryModel.FoodWasteCategory.id,
+                )
+                .order_by(desc(AdvertisementModel.Advertisement.created_at))
+                .all()
+            )
 
         for i in range(len(advertisements)):
             advertisements[i] = {
