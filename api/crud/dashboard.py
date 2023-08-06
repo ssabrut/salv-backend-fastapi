@@ -18,6 +18,7 @@ async def index(db: Session, token: str):
         category_weight_data = [
             {
                 "category": category.name,
+                "image": category.image,
                 "total_weight": 0,
                 "transaction_count": 0,
             }
