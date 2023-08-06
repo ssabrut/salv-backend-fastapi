@@ -161,6 +161,7 @@ Kira-kira, apa saja cara yang dapat digunakan untuk memanfaatkan kembali kulit a
             "thumbnail": "https://firebasestorage.googleapis.com/v0/b/salv-amcc.appspot.com/o/education_thumbnail%2Fgbthbevbpzvufoswup8w.jpg?alt=media&token=535316af-a98b-4949-897b-e09ccd44312c",
             "preparation": "Olah menjadi keripik",
             "implementation": "Kulit apel ternyata bisa diolah menjadi sajian keripik yang lezat, lho. Caranya pun tak sulit, cukup panggang kulit apel yang telah diolesi mentega dan kayu manis hingga teksturnya berubah menjadi renyah. Selain rasanya yang enak, keripik kulit apel ini juga bisa kamu santap sebagai kudapan sehat.",
+            "video": "https://www.youtube.com/watch?v=AMa0tx8O0iU",
         },
         {
             "id": "a9cb519d-07dd-4a4a-ab52-53ab4387954d",
@@ -175,6 +176,7 @@ Kira-kira, apa saja cara yang dapat digunakan untuk memanfaatkan kembali kulit a
             "thumbnail": "https://firebasestorage.googleapis.com/v0/b/salv-amcc.appspot.com/o/education_thumbnail%2Fgbthbevbpzvufoswup8w.jpg?alt=media&token=535316af-a98b-4949-897b-e09ccd44312c",
             "preparation": "Sajikan sebagai teh",
             "implementation": "Tak banyak yang tahu bila kulit dari buah yang kaya serat ini dapat disajikan sebagai teh, yang mampu menenangkan tubuh. Rebus air dengan campuran kulit apel, kayu manis, dan madu. Untuk mendapatkan warna merah jambu yang cantik, gunakan kulit apel yang berwarna merah sebagai bahan utamanya.",
+            "video": "https://www.youtube.com/watch?v=oEhy8vCNKT8",
         },
         {
             "id": "d7fac099-8c43-4864-b2de-dd06dc8eb012",
@@ -189,6 +191,7 @@ Kira-kira, apa saja cara yang dapat digunakan untuk memanfaatkan kembali kulit a
             "thumbnail": "https://firebasestorage.googleapis.com/v0/b/salv-amcc.appspot.com/o/education_thumbnail%2Fgbthbevbpzvufoswup8w.jpg?alt=media&token=535316af-a98b-4949-897b-e09ccd44312c",
             "preparation": "Sebagai garnish salad",
             "implementation": "Tekstur kulit apel yang renyah dapat membuat sajian salad terasa lebih lezat. Selain itu, kulit apel juga kaya akan serat sehingga semakin menambah nutrisi pada sajian salad. Kamu bisa menaburkan irisan tipis kulit apel atau bahkan mencampurkannya bersama bahan-bahan lain saat membuat salad.",
+            "video": "https://www.youtube.com/watch?v=c-6sLFpsWUk",
         },
     ]
 

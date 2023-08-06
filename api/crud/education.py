@@ -53,6 +53,7 @@ async def get(education_id: str, db: Session, token: str):
                 Education.content,
                 Education.preparation,
                 Education.implementation,
+                Education.video,
             )
             .first()
         )
@@ -65,6 +66,7 @@ async def get(education_id: str, db: Session, token: str):
                 "content": education.content,
                 "preparation": education.preparation,
                 "implementation": education.implementation,
+                "video": education.video,
             }
         ]
 
@@ -85,6 +87,7 @@ async def get(education_id: str, db: Session, token: str):
                 Education.content,
                 Education.preparation,
                 Education.implementation,
+                Education.video,
             )
             .all()
         ):
@@ -96,6 +99,7 @@ async def get(education_id: str, db: Session, token: str):
                     "content": child.content,
                     "preparation": child.preparation,
                     "implementation": child.implementation,
+                    "video": child.video,
                 }
             )
 
@@ -109,6 +113,7 @@ async def get(education_id: str, db: Session, token: str):
             "content": education.content,
             "preparation": education.preparation,
             "implementation": education.implementation,
+            "video": education.video,
             "children": children[1:],
         }
 
