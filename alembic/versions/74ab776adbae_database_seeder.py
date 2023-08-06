@@ -95,6 +95,7 @@ def upgrade() -> None:
         {
             "id": "8c9d6b2d-5d65-44cc-8316-101b11ea2f61",
             "food_waste_category_id": category_id[0],
+            "user_id": user_id[2],
             "name": "Butuh kulit apel merah, saya beli dengan harga bersaing!",
             "additional_information": "",
             "price": 1000,
@@ -106,6 +107,7 @@ def upgrade() -> None:
         {
             "id": "cfb4a1fd-865e-4deb-970c-7ed0e46042b9",
             "food_waste_category_id": category_id[0],
+            "user_id": user_id[2],
             "name": "Butuh kulit pisang, saya beli dengan harga bersaing!",
             "additional_information": "",
             "price": 1500,
@@ -117,6 +119,7 @@ def upgrade() -> None:
         {
             "id": "4e349a84-c268-4837-b50f-51740732b920",
             "food_waste_category_id": category_id[0],
+            "user_id": user_id[3],
             "name": "Butuh pisang layu, saya beli dengan harga bersaing!",
             "additional_information": "",
             "price": 2000,
@@ -128,6 +131,7 @@ def upgrade() -> None:
         {
             "id": "ae52cfde-322d-43f3-bfe0-7c0507d29b37",
             "food_waste_category_id": category_id[1],
+            "user_id": user_id[3],
             "name": "Butuh kangkung layu",
             "additional_information": "",
             "price": 500,
