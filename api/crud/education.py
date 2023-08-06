@@ -114,7 +114,7 @@ async def get(education_id: str, db: Session, token: str):
             "preparation": education.preparation,
             "implementation": education.implementation,
             "video": education.video,
-            "children": children[1:],
+            "children": children,
         }
 
         return data
