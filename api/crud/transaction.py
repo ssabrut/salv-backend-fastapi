@@ -28,11 +28,12 @@ async def index(db: Session, token: str):
         )
         .filter(TransactionModel.Transaction.user_id == user.id)
         .order_by(
-            TransactionModel.Transaction.status == "1",
             desc(AdvertisementModel.Advertisement.created_at),
         )
         .all()
     )
+
+    transactions.sort(key=lambda t: (t.status != '0' and t.status != '1', t.status))
 
     if user:
         if user.type == 2:
