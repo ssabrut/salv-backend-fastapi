@@ -56,3 +56,7 @@ class Address(AddressBase):
 
     class Config:
         orm_mode = True
+
+class AddressUpdate(BaseModel):
+    latitude: float
+    longitude: float

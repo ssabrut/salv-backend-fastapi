@@ -99,3 +99,24 @@ async def create_address(
         )
     except Exception as e:
         return jsonable_encoder({"status_code": 500, "message": str(e)})
+
+@router.post("/address/update")
+async def update_address(
+    updated_location: UserSchema.AddressUpdate, request:Request, db: Session = Depends(get_db)
+):
+    try:
+        token = utils.get_token(request)
+        data = await UserCrud.update_address(db=db, updated_location=updated_location, token=token)
+        if data:
+            return jsonable_encoder(
+                {
+                    "status_code": 200,
+                    "message": "Address Updated",
+                    "data": data,
+                }
+            )
+        return jsonable_encoder(
+            {"status_code": 400, "message": "Address failed to update"}
+        )
+    except Exception as e:
+        return jsonable_encoder({"status_code": 500, "message": str(e)})

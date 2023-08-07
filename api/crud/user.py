@@ -101,3 +101,19 @@ async def create_address(db: Session, address: Address, token: str):
         db.refresh(db_address)
         return db_address
     return utils.credentials_exception
+
+async def update_address(db: Session, updated_location: UserSchema.AddressUpdate, token: str):
+    user = await utils.get_current_user(
+        token=token,
+        db=db,
+    )
+
+    if user:
+        db_updated_location = db.query(UserModel.Address).filter(UserModel.Address.user_id == user.id).first()
+        db_updated_location.latitude = updated_location.latitude
+        db_updated_location.longitude = updated_location.longitude
+        db.commit()
+        return db_updated_location
+    return utils.credentials_exception
+
+    
