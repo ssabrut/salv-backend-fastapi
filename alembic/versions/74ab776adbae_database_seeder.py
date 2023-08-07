@@ -46,6 +46,7 @@ def upgrade() -> None:
             "phone_number": "12390785129",
             "image": "https://firebasestorage.googleapis.com/v0/b/salv-amcc.appspot.com/o/profile_picture%2Fimages.jpeg?alt=media&token=19bf4f4c-7b85-4654-97aa-4bdc40595505",
             "password": get_password_hash("12345678"),
+            "point": 100000,
         },
         {
             "id": "8a830bb8-c94b-41ec-b622-a199d89f1b4a",
@@ -56,6 +57,7 @@ def upgrade() -> None:
             "phone_number": "12390785129",
             "image": "https://firebasestorage.googleapis.com/v0/b/salv-amcc.appspot.com/o/profile_picture%2Fdownload.jpeg?alt=media&token=ec1c095a-dd1d-4704-926e-58ef96c672a1",
             "password": get_password_hash("12345678"),
+            "point": 50000,
         },
         {
             "id": "ee5e4eff-8b15-4a4f-88c5-acdcece4bfd7",
@@ -66,6 +68,7 @@ def upgrade() -> None:
             "phone_number": "12390785129",
             "image": "https://firebasestorage.googleapis.com/v0/b/salv-amcc.appspot.com/o/profile_picture%2Fimages%20(1).jpeg?alt=media&token=108314c9-d623-4a3b-87ae-d26bd6229301",
             "password": get_password_hash("12345678"),
+            "point": 25000,
         },
         {
             "id": "fba673f6-80c8-4137-b1a0-0dca6f01e9ed",
@@ -76,6 +79,7 @@ def upgrade() -> None:
             "phone_number": "12390785129",
             "image": "https://firebasestorage.googleapis.com/v0/b/salv-amcc.appspot.com/o/profile_picture%2Fpexels-pixabay-220453.jpg?alt=media&token=753566f5-5a30-4c30-9772-dda6db6e28e9",
             "password": get_password_hash("12345678"),
+            "point": 75000,
         },
     ]
 
@@ -222,6 +226,39 @@ Kira-kira, apa saja cara yang dapat digunakan untuk memanfaatkan kembali kulit a
             "preparation": "Sebagai garnish salad",
             "implementation": "Tekstur kulit apel yang renyah dapat membuat sajian salad terasa lebih lezat. Selain itu, kulit apel juga kaya akan serat sehingga semakin menambah nutrisi pada sajian salad. Kamu bisa menaburkan irisan tipis kulit apel atau bahkan mencampurkannya bersama bahan-bahan lain saat membuat salad.",
             "video": "https://www.youtube.com/watch?v=c-6sLFpsWUk",
+        },
+        {
+            "id": "399597a0-9bd1-4f56-b1ba-d60c87b176a0",
+            "food_waste_category_id": category_id[0],
+            "title": "Ternyata Bisa Dimakan! Ini 5 Cara Mengolah Kulit Jeruk, dari Dikeringkan hingga Jadi Selai",
+            "content": """
+        Bukan hanya lezat, kulit jeruk juga miliki banyak kandungan gizi yang baik untuk kesehatan tubuh.
+Kulit jeruk mengandung vitamin C yang jumlahnya tidak kalah dari buahnya. Selain vitamin C, ada juga kandungan serat yang baik untuk pencernaan.
+Bahkan, ada juga kandungan zat kimia lain seperti polifenol, folat, riboflavin, thiamine, vitamin B6, dan kalsium.
+Dengan mengolah kulit jeruk secara tepat, teman-teman bisa mendapatkan banyak manfaat dari gizi yang ada di dalam kulit jeruk.
+Untuk mengolah kulit jeruk, ada beberapa cara yang bisa teman-teman coba.
+        """,
+            "thumbnail": "https://firebasestorage.googleapis.com/v0/b/salv-amcc.appspot.com/o/education_thumbnail%2Fkulit-jeruk-memiliki-banyak-manf-20210712074534.jpg?alt=media&token=0dec0cef-3b5c-48bb-b145-060dd48168c9",
+            "preparation": "Campuran Smoothies",
+            "implementation": "Selain dikeringkan, teman-teman bisa mengolah kulit jeruk menjadi campuran smoothies. Campuran kulit jeruk ini akan memberikan aroma wangi jeruk dan rasa segar dari buah jeruk. Untuk membuatnya, teman-teman bisa menggunakan buah atau sayur lain dan tambahkan parutan kulit jeruk. Pastikan hanya memarut kulit pada bagian luar dan jangan campurkan bagian putih kulit jeruk. Parutan kulit jeruk ini jugu bisa teman-teman campurkan pada salad buah dan sayur.",
+            "video": "https://www.youtube.com/watch?v=Hf9dv67PBd8",
+        },
+        {
+            "id": "221dc18f-c991-4d4d-b07d-df033239ac54",
+            "parent_id": "399597a0-9bd1-4f56-b1ba-d60c87b176a0",
+            "food_waste_category_id": category_id[0],
+            "title": "Ternyata Bisa Dimakan! Ini 5 Cara Mengolah Kulit Jeruk, dari Dikeringkan hingga Jadi Selai",
+            "content": """
+        Bukan hanya lezat, kulit jeruk juga miliki banyak kandungan gizi yang baik untuk kesehatan tubuh.
+Kulit jeruk mengandung vitamin C yang jumlahnya tidak kalah dari buahnya. Selain vitamin C, ada juga kandungan serat yang baik untuk pencernaan.
+Bahkan, ada juga kandungan zat kimia lain seperti polifenol, folat, riboflavin, thiamine, vitamin B6, dan kalsium.
+Dengan mengolah kulit jeruk secara tepat, teman-teman bisa mendapatkan banyak manfaat dari gizi yang ada di dalam kulit jeruk.
+Untuk mengolah kulit jeruk, ada beberapa cara yang bisa teman-teman coba.
+        """,
+            "thumbnail": "https://firebasestorage.googleapis.com/v0/b/salv-amcc.appspot.com/o/education_thumbnail%2Fkulit-jeruk-memiliki-banyak-manf-20210712074534.jpg?alt=media&token=0dec0cef-3b5c-48bb-b145-060dd48168c9",
+            "preparation": "Cara Membuat Lilin dari Kulit Jeruk - DIY - Kreatif",
+            "implementation": "Bahkan kulit jeruk juga bisa teman-teman olah menjadi permen. Untuk mengolah kulit jeruk ini, teman-teman cukup merebusnya hingga mendidih. Setelah mendidih, saring air lalu campurkan gula pada air rebusan tersebut dan diamkan selama 10 menit hingga satu jam. Air akan memadat dan bisa dipotong-potong menjadi ukuran kecil. Permen ini bisa menjadi camilan yang alami dan tidak membuat berat badan meningkat. Nah, itu tadi lima cara mengolah kulit jeruk dan mendapatkan manfaat di dalamnya. Teman-teman bisa menjadikan kulit jeruk sebagai camilan hingga minuman hangat atau dingin.",
+            "video": "https://www.youtube.com/watch?v=98_tWh4EYIM",
         },
     ]
 
