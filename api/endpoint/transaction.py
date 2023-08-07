@@ -10,7 +10,7 @@ router = APIRouter()
 
 
 @router.get("/seller-transaction/index/{user_id}")
-async def seller_transaction(
+async def seller_transaction_index(
     user_id: str, request: Request, db: Session = Depends(get_db)
 ):
     try:
@@ -40,7 +40,7 @@ async def seller_transaction(
 
 
 @router.get("/buyer-transaction/index/{user_id}")
-async def buyer_transaction(
+async def buyer_transaction_index(
     user_id: str, request: Request, db: Session = Depends(get_db)
 ):
     try:
