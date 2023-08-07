@@ -224,15 +224,14 @@ async def content_based(categories: list, db: Session, token: str):
             )
 
             for advertisement in advertisements:
-                if advertisement.status == "ongoing":
-                    ads = {
-                        "id": advertisement.id,
-                        "title": advertisement.name,
-                        "category": advertisement.food_waste_category.name,
-                        "price": advertisement.price,
-                        "user": advertisement.user.name,
-                        "image": advertisement.user.image,
-                    }
-                    data.append(ads)
+                ads = {
+                    "id": advertisement.id,
+                    "title": advertisement.name,
+                    "category": advertisement.food_waste_category.name,
+                    "price": advertisement.price,
+                    "user": advertisement.user.name,
+                    "image": advertisement.user.image,
+                }
+                data.append(ads)
         return data
     return utils.credentials_exception
