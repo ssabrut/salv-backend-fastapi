@@ -47,7 +47,7 @@ async def success(transaction_id: str, request: Request, db: Session = Depends(g
                 }
             )
 
-        if type(data) is not str and data:
+        if data:
             return jsonable_encoder(
                 {"status_code": 200, "message": "success adding point"}
             )

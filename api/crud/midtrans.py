@@ -57,12 +57,6 @@ async def add_point(transaction_id: str, db: Session, token: str):
 
     if user:
         if transaction_status == "settlement":
-            print("a")
-            await InvoiceCrud.create(
-                user_id=user.id, order_id=transaction_id, amount=amount, db=db
-            )
-
-            print("a")
             user.point += amount
             db.commit()
             return True
