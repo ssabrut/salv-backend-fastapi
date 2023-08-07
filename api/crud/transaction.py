@@ -159,8 +159,13 @@ async def get(db: Session, transaction_id: str, token: str):
         }
 
         if user.type == 2:
-            data["latitude"] = transaction.user.latitude
-            data["longitude"] = transaction.user.longitude
+            location = (
+                db.query(UserModel.Address)
+                .filter(UserModel.Address.user_id == transaction.user_id)
+                .first()
+            )
+            data["latitude"] = location.latitude
+            data["longitude"] = location.longitude
         return data
     return utils.credentials_exception
 
