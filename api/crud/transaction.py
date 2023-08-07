@@ -159,7 +159,7 @@ async def get(db: Session, transaction_id: str, token: str):
             "image": transaction.image,
         }
 
-        if user.type == 2:
+        if user.type == "2":
             location = (
                 db.query(UserModel.Address)
                 .filter(UserModel.Address.user_id == transaction.user_id)
