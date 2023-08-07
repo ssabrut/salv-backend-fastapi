@@ -15,25 +15,44 @@ async def index(db: Session, token: str):
         db=db,
     )
 
-    transactions = (
-        db.query(TransactionModel.Transaction)
-        .join(
-            AdvertisementModel.Advertisement,
-            TransactionModel.Transaction.advertisement_id
-            == AdvertisementModel.Advertisement.id,
+    if user.type == 3:
+        transactions = (
+            db.query(TransactionModel.Transaction)
+            .join(
+                AdvertisementModel.Advertisement,
+                TransactionModel.Transaction.advertisement_id
+                == AdvertisementModel.Advertisement.id,
+            )
+            .join(
+                UserModel.User,
+                AdvertisementModel.Advertisement.user_id == UserModel.User.id,
+            )
+            .filter(TransactionModel.Transaction.user_id == user.id)
+            .order_by(
+                desc(TransactionModel.Transaction.created_at),
+            )
+            .all()
         )
-        .join(
-            UserModel.User,
-            AdvertisementModel.Advertisement.user_id == UserModel.User.id,
+    else:
+        transactions = (
+            db.query(TransactionModel.Transaction)
+            .join(
+                AdvertisementModel.Advertisement,
+                TransactionModel.Transaction.advertisement_id
+                == AdvertisementModel.Advertisement.id,
+            )
+            .join(
+                UserModel.User,
+                AdvertisementModel.Advertisement.user_id == UserModel.User.id,
+            )
+            .filter(TransactionModel.Transaction.advertisement.id == user.id)
+            .order_by(
+                desc(TransactionModel.Transaction.created_at),
+            )
+            .all()
         )
-        .filter(TransactionModel.Transaction.user_id == user.id)
-        .order_by(
-            desc(AdvertisementModel.Advertisement.created_at),
-        )
-        .all()
-    )
 
-    transactions.sort(key=lambda t: (t.status != '0' and t.status != '1', t.status))
+    transactions.sort(key=lambda t: (t.status != "0" and t.status != "1", t.status))
 
     if user:
         if user.type == 2:
