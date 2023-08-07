@@ -107,17 +107,31 @@ async def get(db: Session, advertisement_id: str, token: str):
             .first()
         )
 
-        advertisement = {
-            "id": advertisement.id,
-            "ongoing_weight": advertisement.ongoing_weight,
-            "requested_weight": advertisement.requested_weight,
-            "title": advertisement.name,
-            "category": advertisement.food_waste_category.name,
-            "additional_information": advertisement.additional_information,
-            "maximum_weight": advertisement.maximum_weight,
-            "minimum_weight": advertisement.minimum_weight,
-            "price": advertisement.price,
-        }
+        if user.type != "2":
+            advertisement = {
+                "id": advertisement.id,
+                "ongoing_weight": advertisement.ongoing_weight,
+                "requested_weight": advertisement.requested_weight,
+                "title": advertisement.name,
+                "category": advertisement.food_waste_category.name,
+                "additional_information": advertisement.additional_information,
+                "maximum_weight": advertisement.maximum_weight,
+                "minimum_weight": advertisement.minimum_weight,
+                "price": advertisement.price,
+                "status": advertisement.status,
+            }
+        else:
+            advertisement = {
+                "id": advertisement.id,
+                "ongoing_weight": advertisement.ongoing_weight,
+                "requested_weight": advertisement.requested_weight,
+                "title": advertisement.name,
+                "category": advertisement.food_waste_category.name,
+                "additional_information": advertisement.additional_information,
+                "maximum_weight": advertisement.maximum_weight,
+                "minimum_weight": advertisement.minimum_weight,
+                "price": advertisement.price,
+            }
 
         if not advertisement:
             return False
