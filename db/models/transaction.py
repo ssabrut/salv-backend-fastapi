@@ -9,7 +9,7 @@ class Transaction(Base):
     id = Column(String(50), primary_key=True, unique=True)
     user_id = Column(String(50), ForeignKey("users.id"))
     advertisement_id = Column(String(50), ForeignKey("advertisements.id"))
-    status = Column(Integer, nullable=True, default=0)
+    status = Column(String(5), nullable=True, default="0")
     weight = Column(Integer, nullable=False, index=True)
     image = Column(String(255), nullable=False, index=True)
     total_price = Column(Integer, nullable=False, index=True)

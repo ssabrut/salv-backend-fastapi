@@ -1,5 +1,5 @@
 from db.schemas import advertisement as AdvertisementSchema
-from fastapi import Depends, APIRouter, Request
+from fastapi import Depends, APIRouter, Request, Query
 from api.endpoint import get_db
 from sqlalchemy.orm import Session
 from fastapi.encoders import jsonable_encoder

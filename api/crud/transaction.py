@@ -28,7 +28,7 @@ async def index(db: Session, token: str):
         )
         .filter(TransactionModel.Transaction.user_id == user.id)
         .order_by(
-            TransactionModel.Transaction.status == 1,
+            TransactionModel.Transaction.status == "1",
             desc(AdvertisementModel.Advertisement.created_at),
         )
         .all()
@@ -161,7 +161,7 @@ async def update(db: Session, transaction_id: str, status: int, token: str):
         transaction.status = status
         db.commit()
 
-        if transaction.status == 2:
+        if transaction.status == "2":
             seller = (
                 db.query(UserModel.User)
                 .filter(UserModel.User.id == transaction.user_id)

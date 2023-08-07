@@ -125,8 +125,9 @@ async def get(db: Session, advertisement_id: str, token: str):
     return utils.credentials_exception
 
 
-async def search(db: Session, query: str, token: str):
+async def search(db: Session, token: str, query: str):
     user = await utils.get_current_user(token=token, db=db)
+    print(type(query))
 
     if user:
         if query != "":
