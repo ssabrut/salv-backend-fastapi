@@ -156,6 +156,7 @@ async def get(db: Session, transaction_id: str, token: str):
             "additional_information": transaction.advertisement.additional_information,
             "weight": transaction.weight,
             "total_price": transaction.total_price,
+            "image": transaction.image,
         }
 
         if user.type == 2:
