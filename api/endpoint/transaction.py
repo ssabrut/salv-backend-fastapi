@@ -204,3 +204,38 @@ async def update_transaction(
         )
     except Exception as e:
         return jsonable_encoder({"status_code": 500, "message": str(e)})
+
+
+@router.get("/seller-transaction/{transaction_id}/{status}")
+async def seller_update_transaction(
+    transaction_id: str, status: int, request: Request, db: Session = Depends(get_db)
+):
+    try:
+        token = utils.get_token(request)
+        data = await TransactionCrud.update(
+            db=db, transaction_id=transaction_id, status=status, token=token
+        )
+
+        if utils.is_token_revoked(token, db):
+            return jsonable_encoder(
+                {
+                    "status_code": 401,
+                    "message": "token revoked",
+                }
+            )
+
+        if data:
+            return jsonable_encoder(
+                {
+                    "status_code": 200,
+                    "message": "success update transaction",
+                }
+            )
+        return jsonable_encoder(
+            {
+                "status_code": 400,
+                "message": "failed update transaction",
+            }
+        )
+    except Exception as e:
+        return jsonable_encoder({"status_code": 500, "message": str(e)})
