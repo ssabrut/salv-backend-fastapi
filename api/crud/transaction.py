@@ -159,14 +159,26 @@ async def get(db: Session, transaction_id: str, token: str):
             "image": transaction.image,
         }
 
-        if user.type == "2":
+        if user.type == 2:
             location = (
                 db.query(UserModel.Address)
                 .filter(UserModel.Address.user_id == transaction.user_id)
                 .first()
             )
-            data["latitude"] = location.latitude
-            data["longitude"] = location.longitude
+
+            data = {
+                "id": transaction.id,
+                "ongoing_weight": transaction.advertisement.ongoing_weight,
+                "requested_weight": transaction.advertisement.requested_weight,
+                "title": transaction.advertisement.name,
+                "category": transaction.advertisement.food_waste_category.name,
+                "additional_information": transaction.advertisement.additional_information,
+                "weight": transaction.weight,
+                "total_price": transaction.total_price,
+                "image": transaction.image,
+                "latitude": location.latitude,
+                "longitude": location.longitude,
+            }
         return data
     return utils.credentials_exception
 
