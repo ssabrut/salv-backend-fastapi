@@ -45,7 +45,7 @@ async def index(db: Session, token: str):
                 UserModel.User,
                 AdvertisementModel.Advertisement.user_id == UserModel.User.id,
             )
-            .filter(TransactionModel.Transaction.advertisement.id == user.id)
+            .filter(AdvertisementModel.Advertisement.user_id == user.id)
             .order_by(
                 desc(TransactionModel.Transaction.created_at),
             )
