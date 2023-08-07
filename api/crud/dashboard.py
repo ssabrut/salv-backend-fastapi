@@ -61,22 +61,40 @@ async def index(db: Session, token: str):
 async def recent_transaction(db: Session, token: str):
     user = await utils.get_current_user(token=token, db=db)
 
-    transactions = (
-        db.query(TransactionModel.Transaction)
-        .join(
-            AdvertisementModel.Advertisement,
-            TransactionModel.Transaction.advertisement_id
-            == AdvertisementModel.Advertisement.id,
+    if user.type == 3:
+        transactions = (
+            db.query(TransactionModel.Transaction)
+            .join(
+                AdvertisementModel.Advertisement,
+                TransactionModel.Transaction.advertisement_id
+                == AdvertisementModel.Advertisement.id,
+            )
+            .join(
+                UserModel.User,
+                AdvertisementModel.Advertisement.user_id == UserModel.User.id,
+            )
+            .filter(TransactionModel.Transaction.user_id == user.id)
+            .order_by(desc(TransactionModel.Transaction.created_at))
+            .limit(5)
+            .all()
         )
-        .join(
-            UserModel.User,
-            AdvertisementModel.Advertisement.user_id == UserModel.User.id,
+    else:
+        transactions = (
+            db.query(TransactionModel.Transaction)
+            .join(
+                AdvertisementModel.Advertisement,
+                TransactionModel.Transaction.advertisement_id
+                == AdvertisementModel.Advertisement.id,
+            )
+            .join(
+                UserModel.User,
+                AdvertisementModel.Advertisement.user_id == UserModel.User.id,
+            )
+            .filter(AdvertisementModel.Advertisement.user_id == user.id)
+            .order_by(desc(TransactionModel.Transaction.created_at))
+            .limit(5)
+            .all()
         )
-        .filter(TransactionModel.Transaction.user_id == user.id)
-        .order_by(desc(TransactionModel.Transaction.created_at))
-        .limit(5)
-        .all()
-    )
 
     if user:
         for i in range(len(transactions)):
